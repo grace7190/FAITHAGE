@@ -14,7 +14,7 @@ test_sprite.set_colorkey((0,255,0))
 test_enemy = pygame.image.load("art/en_temp.png").convert()
 test_enemy.set_colorkey((0,255,0))
 test_skillicon = pygame.image.load("art/ic_temp.png").convert()
-click_sound = pygame.mixer.Sound("sound/li_faith.ogg")
+click_sound = pygame.mixer.Sound("sound/fx_test.ogg")
 # need to make a class for skill to store the x position, destroy self?
 skill_x = 0
 
