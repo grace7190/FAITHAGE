@@ -28,7 +28,10 @@ click_sound.set_volume(0.1)
 
 skillIcon_Group = pygame.sprite.Group()
 skill_Group = pygame.sprite.Group()
+score = 0
+gold = 0
 add_sprite = 0
+
 
 # Loop until the user clicks the close button.
 quit = False
@@ -43,6 +46,8 @@ while not quit:
                 click_sound.play()
                 for skill in skillIcon_Group:
                     if not skill.triggered and skill.check_clicked():
+                        score += 500
+                        gold += 3
                         skill_Group.add(skill.activate_skill())
 
     # Testing multiple skills
@@ -51,12 +56,20 @@ while not quit:
         add_sprite = 0
     add_sprite += 1
 
+    # Setting up UI text
+    xp_text = pygame.font.SysFont("comicsansms", 32).\
+        render("XP: "+str(score), 1, (0,0,0))
+    gold_text = pygame.font.SysFont("comicsansms", 32).\
+        render("Gold: "+str(gold), 1, (255, 204, 0), (0, 0, 102))
+
     # --- Drawing code
     screen.blit(test_bg, (0,0))
     screen.blit(test_sprite, (600-test_sprite.get_width(),
                               780-test_sprite.get_height()+20))
     screen.blit(test_enemy, (1320,
                              780-test_enemy.get_height()+20))
+    screen.blit(xp_text, (5, 10))
+    screen.blit(gold_text, (5, 50))
 
     # --- update Sprites
     skillIcon_Group.update()
