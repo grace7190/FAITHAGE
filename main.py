@@ -1,6 +1,7 @@
 import pygame
 import os
 from Skill import *
+from Character import *
 
 # Just changing the window position so I can see the whole screen.
 # Might not be the same for your monitor?
@@ -19,15 +20,22 @@ clock = pygame.time.Clock()
 
 # TESTING ONLY - global vars
 test_bg = pygame.image.load("art/bg_temp.jpg").convert()
-test_sprite = pygame.image.load("art/pl_shana.png").convert()
-test_sprite.set_colorkey((0,255,0))
 test_enemy = pygame.image.load("art/en_temp.png").convert()
 test_enemy.set_colorkey((0,255,0))
 click_sound = pygame.mixer.Sound("sound/fx_test.ogg")
 click_sound.set_volume(0.1)
 
+PL_IMG_SIZE = (400,400)
+CID_X = 400 - PL_IMG_SIZE[0]
+CID_Y = 780 - PL_IMG_SIZE[1] + 20
+SHANA_X = 600 - PL_IMG_SIZE[0]
+SHANA_Y = 780 - PL_IMG_SIZE[1] + 20
+
 skillIcon_Group = pygame.sprite.Group()
 skill_Group = pygame.sprite.Group()
+char_Group = pygame.sprite.Group()
+char_Group.add(Character("cid", CID_X, CID_Y))
+char_Group.add(Character("shana", SHANA_X, SHANA_Y))
 score = 0
 gold = 0
 add_sprite = 0
@@ -64,8 +72,6 @@ while not quit:
 
     # --- Drawing code
     screen.blit(test_bg, (0,0))
-    screen.blit(test_sprite, (600-test_sprite.get_width(),
-                              780-test_sprite.get_height()+20))
     screen.blit(test_enemy, (1320,
                              780-test_enemy.get_height()+20))
     screen.blit(xp_text, (5, 10))
@@ -77,6 +83,7 @@ while not quit:
     # --- update the screen
     skillIcon_Group.draw(screen)
     skill_Group.draw(screen)
+    char_Group.draw(screen)
     pygame.display.flip()
  
     # --- Limit to 60 frames per second

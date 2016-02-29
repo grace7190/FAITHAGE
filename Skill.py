@@ -13,7 +13,7 @@ class SkillIcon(pygame.sprite.Sprite):
         # Determine which skill was summoned
         if self.skill_name == "SKILL_NAME":
             self.image = pygame.image.load("art/ic_temp.png").convert()
-            self.skill_sprites = SpriteSheet("art/fx_airstrike2.png").images_at(
+            self.skill_sprites = SpriteSheet("art/fx_airstrike1.png").images_at(
                 [(0,0,200,200),
                 (200,0,200,200),
                 (400,0,200,200),
