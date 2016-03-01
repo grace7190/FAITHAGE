@@ -1,5 +1,6 @@
 import pygame
 from SpriteSheet import *
+from HealthBar import *
 
 
 # Character Class gawt damn
@@ -13,3 +14,11 @@ class Character(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.health = 100
+        self.total_health = 100
+        self.healthbar = HealthBar(self, (20, 131, 7))
+
+    def update(self):
+        if self.health < 0:
+            self.health = 0
+        self.healthbar.update()
