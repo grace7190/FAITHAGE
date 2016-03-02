@@ -2,6 +2,7 @@ import pygame
 import os
 from Skill import *
 from Character import *
+from Enemy import *
 
 # Just changing the window position so I can see the whole screen.
 # Might not be the same for your monitor?
@@ -20,8 +21,6 @@ clock = pygame.time.Clock()
 
 # TESTING ONLY - global vars
 test_bg = pygame.image.load("art/bg_temp.jpg").convert()
-test_enemy = pygame.image.load("art/en_temp.png").convert()
-test_enemy.set_colorkey((0,255,0))
 click_sound = pygame.mixer.Sound("sound/fx_test.ogg")
 click_sound.set_volume(0.1)
 
@@ -37,11 +36,21 @@ skillIcon_Group = pygame.sprite.Group()
 skill_Group = pygame.sprite.Group()
 health_Group = pygame.sprite.Group()
 char_Group = pygame.sprite.Group()
+enemy_Group = pygame.sprite.Group()
 
+# Characters
 char_Group.add(Cid)
 char_Group.add(Shana)
+
+# Enemies
+enemy_Group.add(Enemy("melee_minion_atk", 1320, CHAR_Y))
+
+# Set up Healthbars
 for char in char_Group:
     health_Group.add(char.healthbar)
+for en in enemy_Group:
+    health_Group.add(en.healthbar)
+
 score = 0
 gold = 0
 add_sprite = 0
@@ -80,8 +89,6 @@ while not quit:
 
     # --- Drawing code
     screen.blit(test_bg, (0,0))
-    screen.blit(test_enemy, (1320,
-                             780-test_enemy.get_height()+20))
     screen.blit(xp_text, (5, 10))
     screen.blit(gold_text, (5, 50))
 
@@ -89,10 +96,12 @@ while not quit:
     skillIcon_Group.update()
     skill_Group.update()
     char_Group.update()
+    enemy_Group.update()
     # --- update the screen
     skillIcon_Group.draw(screen)
     skill_Group.draw(screen)
     char_Group.draw(screen)
+    enemy_Group.draw(screen)
     health_Group.draw(screen)
     pygame.display.flip()
  
