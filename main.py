@@ -1,11 +1,13 @@
 import pygame
 import os
+import ctypes
 from Skill import *
 from Character import *
 from Enemy import *
 
 # Just changing the window position so I can see the whole screen.
 # Might not be the same for your monitor?
+ctypes.windll.user32.SetProcessDPIAware()
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,20)
 
 pygame.init()
@@ -27,9 +29,11 @@ click_sound.set_volume(0.1)
 CHAR_IMG_SIZE = (400,400)
 CID_X = 400 - CHAR_IMG_SIZE[0]
 SHANA_X = 700 - CHAR_IMG_SIZE[0]
-CHAR_Y = 780 - CHAR_IMG_SIZE[1] + 20
+CHAR_Y = 780 - 350 + 20
+HITBOX = (150,350)
 
-Cid = Character("cid", CID_X, CHAR_Y)
+Cid_rect = pygame.Rect((CID_X,CHAR_Y), HITBOX)
+Cid = Character("cid", Cid_rect.centerx, Cid_rect.y)
 Shana = Character("shana", SHANA_X, CHAR_Y)
 
 skillIcon_Group = pygame.sprite.Group()
