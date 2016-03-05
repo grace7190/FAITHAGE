@@ -4,7 +4,6 @@ import ctypes
 from Skill import *
 from Character import *
 from Enemy import *
-from Cid import *
 
 # Just changing the window position so I can see the whole screen.
 # Might not be the same for your monitor?
@@ -37,9 +36,8 @@ HITBOX = (150,350)
 M_MELEE_HITBOX = (150,230)
 
 # Characters
-# Cid = pygame.Rect((CID_X,CHAR_Y), HITBOX)
-# Cid_sprite = Character("cid", Cid.centerx, Cid.y)
-Cid = Cid()
+Cid = pygame.Rect((CID_X,CHAR_Y), HITBOX)
+Cid_sprite = Character("cid", Cid.centerx, Cid.y)
 Shana = pygame.Rect((SHANA_X,CHAR_Y), HITBOX)
 Shana_sprite = Character("shana", Shana.centerx, Shana.y)
 
@@ -50,7 +48,7 @@ health_Group = pygame.sprite.Group()
 
 # Character Group
 char_Group = pygame.sprite.Group()
-char_Group.add(Cid)
+char_Group.add(Cid_sprite)
 char_Group.add(Shana_sprite)
 
 # Enemy Group
@@ -65,12 +63,10 @@ for char in char_Group:
 for en in enemy_Group:
     health_Group.add(en.healthbar)
 
-# Variables
 score = 0
 gold = 0
 add_sprite = 0
-moving = False
-background_x = 0
+
 
 # Loop until the user clicks the close button.
 quit = False
@@ -95,7 +91,7 @@ while not quit:
         add_sprite = 0
         Shana_sprite.health -= 9
     add_sprite += 1
-    Cid.health -= 1
+    Cid_sprite.health -= 1
 
     # Setting up UI text
     xp_text = pygame.font.SysFont("comicsansms", 32).\
