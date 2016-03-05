@@ -26,28 +26,36 @@ test_bg = pygame.image.load("art/bg_temp.jpg").convert()
 click_sound = pygame.mixer.Sound("sound/fx_test.ogg")
 click_sound.set_volume(0.1)
 
-CHAR_IMG_SIZE = (400,400)
-CID_X = 400 - CHAR_IMG_SIZE[0]
-SHANA_X = 700 - CHAR_IMG_SIZE[0]
-CHAR_Y = 780 - 350 + 20
+# Coordinates
+CID_X = 50
+SHANA_X = 200
+CHAR_Y = 430
+M_MELEE_Y = 550
+# Hitboxes
 HITBOX = (150,350)
+M_MELEE_HITBOX = (150,230)
 
-Cid_rect = pygame.Rect((CID_X,CHAR_Y), HITBOX)
-Cid = Character("cid", Cid_rect.centerx, Cid_rect.y)
-Shana = Character("shana", SHANA_X, CHAR_Y)
+# Characters
+Cid = pygame.Rect((CID_X,CHAR_Y), HITBOX)
+Cid_sprite = Character("cid", Cid.centerx, Cid.y)
+Shana = pygame.Rect((SHANA_X,CHAR_Y), HITBOX)
+Shana_sprite = Character("shana", Shana.centerx, Shana.y)
 
+# Miscellaneous Groups
 skillIcon_Group = pygame.sprite.Group()
 skill_Group = pygame.sprite.Group()
 health_Group = pygame.sprite.Group()
+
+# Character Group
 char_Group = pygame.sprite.Group()
+char_Group.add(Cid_sprite)
+char_Group.add(Shana_sprite)
+
+# Enemy Group
 enemy_Group = pygame.sprite.Group()
-
-# Characters
-char_Group.add(Cid)
-char_Group.add(Shana)
-
-# Enemies
-enemy_Group.add(Enemy("melee_minion_atk", 1320, CHAR_Y))
+enemy_List = []
+enemy_List.append(pygame.Rect((1320, M_MELEE_Y), M_MELEE_HITBOX))
+enemy_Group.add(Enemy("melee_minion_atk", enemy_List[0].centerx, M_MELEE_Y))
 
 # Set up Healthbars
 for char in char_Group:
@@ -81,9 +89,9 @@ while not quit:
     if add_sprite > 60:
         skillIcon_Group.add(SkillIcon("SKILL_NAME"))
         add_sprite = 0
-        Shana.health -= 9
+        Shana_sprite.health -= 9
     add_sprite += 1
-    Cid.health -= 1
+    Cid_sprite.health -= 1
 
     # Setting up UI text
     xp_text = pygame.font.SysFont("comicsansms", 32).\

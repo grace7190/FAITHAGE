@@ -5,7 +5,7 @@ from HealthBar import *
 
 # Enemy Class
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, name, x, y):
+    def __init__(self, name, centerx, y):
         pygame.sprite.Sprite.__init__(self)
         self.name = name
         self.sprites = SpriteSheet("art/en_"+name+".png").images_at(
@@ -16,8 +16,9 @@ class Enemy(pygame.sprite.Sprite):
         self.image = self.sprites[0]
         self.sprite_id = 0
         self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
+        self.rect.centerx = centerx
+        # y = hitbox y - (sprite height - hitbox height) + ground overlap
+        self.rect.y = y - (self.rect.height-230) + 20
         self.health = 100
         self.total_health = 100
         self.healthbar = HealthBar(self, (153, 51, 102))

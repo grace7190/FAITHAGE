@@ -13,7 +13,8 @@ class Character(pygame.sprite.Sprite):
         self.image = self.sprites[0]
         self.rect = self.image.get_rect()
         self.rect.centerx = centerx
-        self.rect.y = y - (400-350)
+        # y = hitbox y - (sprite height - hitbox height) + ground overlap
+        self.rect.y = y - (self.rect.height-350) + 20
         self.health = 100
         self.total_health = 100
         self.healthbar = HealthBar(self, (20, 131, 7))
