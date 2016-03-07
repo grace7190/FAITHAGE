@@ -4,11 +4,14 @@ import ctypes
 from Skill import *
 from Character import *
 from Enemy import *
+from Cid import *
+from Shana import *
+from Luxon import *
 
 # Just changing the window position so I can see the whole screen.
 # Might not be the same for your monitor?
 ctypes.windll.user32.SetProcessDPIAware()
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,20)
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,30)
 
 pygame.init()
 screen = pygame.display.set_mode([1920,1080])
@@ -36,10 +39,11 @@ HITBOX = (150,350)
 M_MELEE_HITBOX = (150,230)
 
 # Characters
-Cid = pygame.Rect((CID_X,CHAR_Y), HITBOX)
-Cid_sprite = Character("cid", Cid.centerx, Cid.y)
-Shana = pygame.Rect((SHANA_X,CHAR_Y), HITBOX)
-Shana_sprite = Character("shana", Shana.centerx, Shana.y)
+# Luxon = Luxon(50)
+Cid = Cid(200)
+# Shana = Shana(350)
+
+# Shana_sprite = Character("shana", Shana.centerx, Shana.y)
 
 # Miscellaneous Groups
 skillIcon_Group = pygame.sprite.Group()
@@ -48,8 +52,9 @@ health_Group = pygame.sprite.Group()
 
 # Character Group
 char_Group = pygame.sprite.Group()
-char_Group.add(Cid_sprite)
-char_Group.add(Shana_sprite)
+# char_Group.add(Shana)
+char_Group.add(Cid)
+# char_Group.add(Luxon)
 
 # Enemy Group
 enemy_Group = pygame.sprite.Group()
@@ -63,10 +68,12 @@ for char in char_Group:
 for en in enemy_Group:
     health_Group.add(en.healthbar)
 
+# Variables
 score = 0
 gold = 0
 add_sprite = 0
-
+moving = False
+background_x = 0
 
 # Loop until the user clicks the close button.
 quit = False
@@ -89,9 +96,10 @@ while not quit:
     if add_sprite > 60:
         skillIcon_Group.add(SkillIcon("SKILL_NAME"))
         add_sprite = 0
-        Shana_sprite.health -= 9
+        # Shana_sprite.health -= 9
     add_sprite += 1
-    Cid_sprite.health -= 1
+    Cid.health -= 1
+    Cid.hitbox.x += 1
 
     # Setting up UI text
     xp_text = pygame.font.SysFont("comicsansms", 32).\
@@ -103,6 +111,10 @@ while not quit:
     screen.blit(test_bg, (0,0))
     screen.blit(xp_text, (5, 10))
     screen.blit(gold_text, (5, 50))
+
+    # draw hitbox
+    hitbox = pygame.Surface((Cid.hitbox.width, Cid.hitbox.height))
+    screen.blit(hitbox, (Cid.hitbox.x, Cid.hitbox.y))
 
     # --- update Sprites
     skillIcon_Group.update()

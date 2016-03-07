@@ -30,6 +30,6 @@ class Enemy(pygame.sprite.Sprite):
         self.healthbar.update()
 
         self.sprite_id += 1
-        if self.sprite_id >= len(self.sprites)*15:
+        if self.sprite_id >= len(self.sprites)*10:
             self.sprite_id = 0
-        self.image = self.sprites[(self.sprite_id)//15]
+        self.image = self.sprites[(self.sprite_id)//10]

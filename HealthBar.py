@@ -1,7 +1,7 @@
 import pygame
 from SpriteSheet import *
 
-BAR_SIZE = 200
+BAR_SIZE = 120
 
 # A Healthbar sprite
 class HealthBar(pygame.sprite.Sprite):
