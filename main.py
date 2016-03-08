@@ -3,7 +3,7 @@ import os
 import ctypes
 from Skill import *
 from Character import *
-from Enemy import *
+from Melee_Enemy import *
 from Cid import *
 from Shana import *
 from Luxon import *
@@ -29,21 +29,10 @@ test_bg = pygame.image.load("art/bg_temp.jpg").convert()
 click_sound = pygame.mixer.Sound("sound/fx_test.ogg")
 click_sound.set_volume(0.1)
 
-# Coordinates
-CID_X = 50
-SHANA_X = 200
-CHAR_Y = 430
-M_MELEE_Y = 550
-# Hitboxes
-HITBOX = (150,350)
-M_MELEE_HITBOX = (150,230)
-
 # Characters
-# Luxon = Luxon(50)
+Luxon = Luxon(50)
 Cid = Cid(200)
-# Shana = Shana(350)
-
-# Shana_sprite = Character("shana", Shana.centerx, Shana.y)
+Shana = Shana(350)
 
 # Miscellaneous Groups
 skillIcon_Group = pygame.sprite.Group()
@@ -52,15 +41,20 @@ health_Group = pygame.sprite.Group()
 
 # Character Group
 char_Group = pygame.sprite.Group()
-# char_Group.add(Shana)
+char_Group.add(Shana)
 char_Group.add(Cid)
-# char_Group.add(Luxon)
+char_Group.add(Luxon)
+limit = pygame.Rect((Shana.hitbox.x + Shana.hitbox.width, 0), (50, 1000))
 
 # Enemy Group
 enemy_Group = pygame.sprite.Group()
 enemy_List = []
-enemy_List.append(pygame.Rect((1320, M_MELEE_Y), M_MELEE_HITBOX))
-enemy_Group.add(Enemy("melee_minion_atk", enemy_List[0].centerx, M_MELEE_Y))
+enemy_List.append(Melee_Enemy(1300))
+enemy_List.append(Melee_Enemy(1000))
+enemy_List.append(Melee_Enemy(3000))
+enemy_List.append(Melee_Enemy(2000))
+for en in enemy_List:
+    enemy_Group.add(en)
 
 # Set up Healthbars
 for char in char_Group:
@@ -99,7 +93,10 @@ while not quit:
         # Shana_sprite.health -= 9
     add_sprite += 1
     Cid.health -= 1
-    Cid.hitbox.x += 1
+
+    #Check Enemy Collision
+    for enemy in enemy_List:
+        enemy.check_can_move(limit, enemy_List)
 
     # Setting up UI text
     xp_text = pygame.font.SysFont("comicsansms", 32).\
@@ -113,8 +110,8 @@ while not quit:
     screen.blit(gold_text, (5, 50))
 
     # draw hitbox
-    hitbox = pygame.Surface((Cid.hitbox.width, Cid.hitbox.height))
-    screen.blit(hitbox, (Cid.hitbox.x, Cid.hitbox.y))
+    # hitbox = pygame.Surface((wall.width, wall.height))
+    # screen.blit(hitbox, (wall.x, wall.y))
 
     # --- update Sprites
     skillIcon_Group.update()

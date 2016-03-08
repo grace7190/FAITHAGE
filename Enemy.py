@@ -2,34 +2,31 @@ import pygame
 from SpriteSheet import *
 from HealthBar import *
 
+FLOOR = 780
+HITBOX = (80,230)
+HITBOX_OFFSET = 150
 
-# Enemy Class
+
+# Enemy Class gawt damn
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, name, centerx, y):
+    def __init__(self, x, idle_anim, walk_anim, attack_anim):
         pygame.sprite.Sprite.__init__(self)
-        self.name = name
-        self.sprites = SpriteSheet("art/en_"+name+".png").images_at(
-            [(0,0,400,400),
-             (400,0,400,400),
-             (800,0,400,400),
-             (1200,0,400,400)],colourkey=(0,255,0))
-        self.image = self.sprites[0]
-        self.sprite_id = 0
+        self.idle_anim = idle_anim
+        self.walk_anim = walk_anim
+        self.attack_anim = attack_anim
+        self.image = self.idle_anim[0]
         self.rect = self.image.get_rect()
-        self.rect.centerx = centerx
-        # y = hitbox y - (sprite height - hitbox height) + ground overlap
-        self.rect.y = y - (self.rect.height-230) + 20
+        self.sprite_id = 0
         self.health = 100
         self.total_health = 100
         self.healthbar = HealthBar(self, (153, 51, 102))
+        self.hitbox = pygame.Rect(
+            (x, FLOOR - self.image.get_height() + 20 + HITBOX_OFFSET),
+            HITBOX)
 
     def update(self):
-        self.health -= 1
+        self.rect.centerx = self.hitbox.centerx
+        self.rect.y = self.hitbox.y - HITBOX_OFFSET
         if self.health < 0:
             self.health = 0
         self.healthbar.update()
-
-        self.sprite_id += 1
-        if self.sprite_id >= len(self.sprites)*10:
-            self.sprite_id = 0
-        self.image = self.sprites[(self.sprite_id)//10]

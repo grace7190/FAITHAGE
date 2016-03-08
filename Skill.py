@@ -30,7 +30,7 @@ class SkillIcon(pygame.sprite.Sprite):
 
     def update(self):
         if not self.triggered:
-            self.rect.x += 5
+            self.rect.move_ip(5,0)
         else:
             self.image.set_alpha(self.image.get_alpha() - 10)
         # Destroy when past screen
