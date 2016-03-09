@@ -14,9 +14,10 @@ class Enemy(pygame.sprite.Sprite):
         self.idle_anim = idle_anim
         self.walk_anim = walk_anim
         self.attack_anim = attack_anim
-        self.image = self.idle_anim[0]
-        self.rect = self.image.get_rect()
+        self.current_anim = walk_anim
         self.sprite_id = 0
+        self.image = self.current_anim[self.sprite_id]
+        self.rect = self.image.get_rect()
         self.health = 100
         self.total_health = 100
         self.healthbar = HealthBar(self, (153, 51, 102))
@@ -27,6 +28,8 @@ class Enemy(pygame.sprite.Sprite):
     def update(self):
         self.rect.centerx = self.hitbox.centerx
         self.rect.y = self.hitbox.y - HITBOX_OFFSET
-        if self.health < 0:
-            self.health = 0
         self.healthbar.update()
+        self.sprite_id += 1
+        if self.sprite_id >= len(self.current_anim)*10:
+            self.sprite_id = 0
+        self.image = self.current_anim[(self.sprite_id)//10]

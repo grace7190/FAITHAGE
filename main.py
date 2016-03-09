@@ -49,8 +49,9 @@ limit = pygame.Rect((Shana.hitbox.x + Shana.hitbox.width, 0), (50, 1000))
 # Enemy Group
 enemy_Group = pygame.sprite.Group()
 enemy_List = []
-enemy_List.append(Melee_Enemy(1300))
-enemy_List.append(Melee_Enemy(1000))
+bob = Melee_Enemy(650)
+enemy_List.append(bob)
+enemy_List.append(Melee_Enemy(850))
 enemy_List.append(Melee_Enemy(3000))
 enemy_List.append(Melee_Enemy(2000))
 for en in enemy_List:
@@ -93,8 +94,14 @@ while not quit:
         # Shana_sprite.health -= 9
     add_sprite += 1
     Cid.health -= 1
+    bob.health -= 1
 
-    #Check Enemy Collision
+    # Check dead Enemies
+    for en in enemy_List:
+        if en.health < 0:
+            en.die()
+            enemy_List.remove(en)
+    # Check Enemy Collision
     for enemy in enemy_List:
         enemy.check_can_move(limit, enemy_List)
 

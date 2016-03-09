@@ -14,27 +14,40 @@ class Melee_Enemy(Enemy):
              (400,0,400,400),
              (800,0,400,400),
              (1200,0,400,400)],colourkey=(0,255,0))
-        Enemy.__init__(self, x, idle, attack, attack)
+        Enemy.__init__(self, x, idle, idle, attack)
         self.can_move = True
 
     def check_can_move(self, limit, unit_list):
         if self.hitbox.colliderect(limit):
             self.can_move = False
+            if self.current_anim != self.attack_anim:
+                self.current_anim = self.attack_anim
+                self.sprite_id = 0
             return
         hitbox_list = []
         for i in unit_list:
             hitbox_list.append(i.hitbox)
         hitbox_list.remove(self.hitbox)
         if self.hitbox.collidelist(hitbox_list) == -1:
+            if self.current_anim != self.walk_anim:
+                self.current_anim = self.walk_anim
+                self.sprite_id = 0
             self.can_move = True
         else:
             self.can_move = False
+            if self.current_anim != self.attack_anim:
+                self.current_anim = self.attack_anim
+                self.sprite_id = 0
+
+    def die(self):
+        self.kill()
+        self.healthbar.kill()
 
     def update(self):
         Enemy.update(self)
-        self.sprite_id += 1
+
         if self.can_move:
+            if self.current_anim != self.walk_anim:
+                self.current_anim = self.walk_anim
+                self.sprite_id = 0
             self.hitbox.move_ip(-3,0)
-        if self.sprite_id >= len(self.attack_anim)*10:
-            self.sprite_id = 0
-        self.image = self.attack_anim[(self.sprite_id)//10]
