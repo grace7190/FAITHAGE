@@ -28,6 +28,7 @@ clock = pygame.time.Clock()
 test_bg = pygame.image.load("art/bg_temp.jpg").convert()
 click_sound = pygame.mixer.Sound("sound/fx_test.ogg")
 click_sound.set_volume(0.1)
+dialogue_file = open("dialogue.txt")
 
 # Characters
 Luxon = Luxon(50)
@@ -70,8 +71,22 @@ add_sprite = 0
 moving = False
 background_x = 0
 
+
+def get_dialogue(f):
+    dialogue_list = []
+    for line in f:
+        if line.strip() == "===":
+            return dialogue_list
+        l = line.split(':')
+        dialogue_list.append((l[0].strip(),l[1].strip()))
+    return dialogue_list
+
 # Loop until the user clicks the close button.
 quit = False
+show_dialogue = True
+dialogue_idx = 0
+dialogue = get_dialogue(dialogue_file)
+dialogue_next = True
 # -------- Main Program Loop ---------
 while not quit:
     # --- Main event loop
@@ -86,6 +101,28 @@ while not quit:
                         score += 500
                         gold += 3
                         skill_Group.add(skill.activate_skill())
+        elif event.type == pygame.KEYDOWN:
+            if pygame.key.get_pressed()[pygame.K_SPACE]:
+                dialogue_next = True
+
+
+    # DIALOGUE TESTING
+    if show_dialogue:
+        if dialogue_next:
+            if dialogue_idx >= len(dialogue):
+                show_dialogue = False
+            else:
+                d = pygame.font.SysFont("comicsansms", 32).\
+                    render(dialogue[dialogue_idx][0]+":  "+dialogue[dialogue_idx][1], 1, (0,0,0))
+                speaker = pygame.image.load("art/"+dialogue[dialogue_idx][0]+"_dialogue.png").convert()
+                dialogue_idx += 1
+                dialogue_next = False
+        screen.blit(test_bg, (0,0))
+        screen.blit(speaker, (700,300))
+        screen.blit(d, (850,500))
+        pygame.display.flip()
+        clock.tick(60)
+        continue
 
     # Testing multiple skills
     if add_sprite > 60:
@@ -131,6 +168,11 @@ while not quit:
     char_Group.draw(screen)
     enemy_Group.draw(screen)
     health_Group.draw(screen)
+
+    # if (show_dialogue):
+    #     screen.blit(test_bg, (0,0))
+    #     screen.blit(d, (screen.get_width()/2,screen.get_height()/2))
+
     pygame.display.flip()
  
     # --- Limit to 60 frames per second

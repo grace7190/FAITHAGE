@@ -63,7 +63,7 @@ class Skill(pygame.sprite.Sprite):
 
     def update(self):
         self.sprite_id += 1
-        if self.sprite_id >= len(self.sprites_array)*15:
+        if self.sprite_id >= len(self.sprites_array)*12:
             self.kill()
         else:
-            self.image = self.sprites_array[(self.sprite_id)//15]
+            self.image = self.sprites_array[(self.sprite_id)//12]

@@ -30,6 +30,6 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.y = self.hitbox.y - HITBOX_OFFSET
         self.healthbar.update()
         self.sprite_id += 1
-        if self.sprite_id >= len(self.current_anim)*10:
+        if self.sprite_id >= len(self.current_anim)*12:
             self.sprite_id = 0
-        self.image = self.current_anim[(self.sprite_id)//10]
+        self.image = self.current_anim[(self.sprite_id)//12]
