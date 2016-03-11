@@ -1,8 +1,11 @@
+[Shana,Luxon]
 SHANA: hey bb
 LUXON: what is the up?
 LUXON: isnt this dialogue sexy af?
+[Cid,Shana]
 CID: hey guys i wann be involved
 SHANA: lol nerd
+{Cid,1}
 ===
-BOB: who am i
+CID: who am i
 ===
