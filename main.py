@@ -3,6 +3,7 @@ import os
 import ctypes
 from Skill import *
 from Character import *
+from Speaker import *
 from Melee_Enemy import *
 from Cid import *
 from Shana import *
@@ -39,6 +40,7 @@ Shana = Shana(350)
 skillIcon_Group = pygame.sprite.Group()
 skill_Group = pygame.sprite.Group()
 health_Group = pygame.sprite.Group()
+speaker_Group = pygame.sprite.Group()
 
 # Character Group
 char_Group = pygame.sprite.Group()
@@ -70,16 +72,49 @@ gold = 0
 add_sprite = 0
 moving = False
 background_x = 0
+left_speaker = Speaker("SHANA", -1)
+right_speaker = Speaker("LUXON", 1)
+speaker_Group.add(left_speaker)
+speaker_Group.add(right_speaker)
 
 
 def get_dialogue(f):
     dialogue_list = []
     for line in f:
         if line.strip() == "===":
-            return dialogue_list
+            break
+        if line[0] == '[':
+            speakers = line[1:-2].split(',')
+            (left_speaker, right_speaker) = swap_speakers(speakers[0], speakers[1])
+            continue
+        if line[0] == '{':
+            char_emotion = line[1:-2].split(',')
+            swap_emotion(char_emotion[0], char_emotion[1])
+            continue
         l = line.split(':')
         dialogue_list.append((l[0].strip(),l[1].strip()))
     return dialogue_list
+
+
+def swap_speakers(left_char, right_char):
+    if left_char != left_speaker:
+        left_speaker.leave = True
+        left = Speaker(left_char, -1)
+        speaker_Group.add(left)
+    else:
+        left = left_char
+    if right_char != right_speaker:
+        right_speaker.leave = True
+        right = Speaker(right_char, 1)
+        speaker_Group.add(right)
+    else:
+        left = left_char
+    return left, right
+
+
+def swap_emotion(char, emotion):
+    print("dawg")
+    return
 
 # Loop until the user clicks the close button.
 quit = False
@@ -106,20 +141,45 @@ while not quit:
                 dialogue_next = True
 
 
-    # DIALOGUE TESTING
+    # # DIALOGUE TESTING
+    # if show_dialogue:
+    #     if dialogue_next:
+    #         if dialogue_idx >= len(dialogue):
+    #             show_dialogue = False
+    #             dialogue_next = False
+    #         else:
+    #             d = pygame.font.SysFont("comicsansms", 32).\
+    #                 render(dialogue[dialogue_idx][0]+":  "+dialogue[dialogue_idx][1], 1, (0,0,0))
+    #             # speaker = pygame.image.load("art/"+dialogue[dialogue_idx][0]+"_dialogue.png").convert()
+    #             dialogue_idx += 1
+    #             dialogue_next = False
+    #     speaker_Group.update()
+    #     screen.blit(test_bg, (0,0))
+    #     # screen.blit(speaker, (700,300))
+    #     screen.blit(d, (850,500))
+    #     speaker_Group.draw(screen)
+    #     pygame.display.flip()
+    #     clock.tick(60)
+    #     continue
+
+        # DIALOGUE TESTING
     if show_dialogue:
+        # dialogue = dialogue_file.
         if dialogue_next:
             if dialogue_idx >= len(dialogue):
                 show_dialogue = False
+                dialogue_next = False
             else:
                 d = pygame.font.SysFont("comicsansms", 32).\
                     render(dialogue[dialogue_idx][0]+":  "+dialogue[dialogue_idx][1], 1, (0,0,0))
-                speaker = pygame.image.load("art/"+dialogue[dialogue_idx][0]+"_dialogue.png").convert()
+                # speaker = pygame.image.load("art/"+dialogue[dialogue_idx][0]+"_dialogue.png").convert()
                 dialogue_idx += 1
                 dialogue_next = False
+        speaker_Group.update()
         screen.blit(test_bg, (0,0))
-        screen.blit(speaker, (700,300))
+        # screen.blit(speaker, (700,300))
         screen.blit(d, (850,500))
+        speaker_Group.draw(screen)
         pygame.display.flip()
         clock.tick(60)
         continue
@@ -136,6 +196,9 @@ while not quit:
     # Check dead Enemies
     for en in enemy_List:
         if en.health < 0:
+            dialogue_idx = 0
+            dialogue = get_dialogue(dialogue_file)
+            show_dialogue = True
             en.die()
             enemy_List.remove(en)
     # Check Enemy Collision
