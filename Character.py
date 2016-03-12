@@ -15,6 +15,7 @@ class Character(pygame.sprite.Sprite):
         self.walk_anim = walk_anim
         self.attack_anim = attack_anim
         self.image = self.idle_anim[0]
+        self.current_anim = self.idle_anim
         self.rect = self.image.get_rect()
         self.sprite_id = 0
         self.health = 100
@@ -24,9 +25,22 @@ class Character(pygame.sprite.Sprite):
             (x, FLOOR - self.image.get_height() + 20 + HITBOX_OFFSET),
             HITBOX)
 
+    def change_anim(self, anim):
+        if anim != self.current_anim:
+            self.current_anim = anim
+            self.sprite_id = 0
+            self.image = self.current_anim[(self.sprite_id)//12]
+            self.rect = self.image.get_rect()
+
     def update(self):
+        self.sprite_id += 1
+        if self.sprite_id >= len(self.current_anim)*12:
+            self.sprite_id = 0
+        self.image = self.current_anim[(self.sprite_id)//12]
+
         self.rect.centerx = self.hitbox.centerx
         self.rect.y = self.hitbox.y - HITBOX_OFFSET
+
         if self.health < 0:
             self.health = 0
         self.healthbar.update()
