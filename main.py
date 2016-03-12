@@ -26,6 +26,7 @@ clock = pygame.time.Clock()
 
 # TESTING ONLY - global vars
 test_bg = pygame.image.load("art/bg_temp.jpg").convert()
+bg_dia_castle = pygame.image.load("art/bg_dia_castle.jpg").convert()
 click_sound = pygame.mixer.Sound("sound/fx_test.ogg")
 click_sound.set_volume(0.1)
 dialogue_file = open("dialogue.txt")
@@ -77,24 +78,6 @@ speaker_Group.add(left_speaker)
 speaker_Group.add(right_speaker)
 
 
-# def get_dialogue(f):
-#     dialogue_list = []
-#     for line in f:
-#         if line.strip() == "===":
-#             break
-#         if line[0] == '[':
-#             speakers = line[1:-2].split(',')
-#             (left_speaker, right_speaker) = swap_speakers(speakers[0], speakers[1])
-#             continue
-#         if line[0] == '{':
-#             char_emotion = line[1:-2].split(',')
-#             swap_emotion(char_emotion[0], char_emotion[1])
-#             continue
-#         l = line.split(':')
-#         dialogue_list.append((l[0].strip(),l[1].strip()))
-#     return dialogue_list
-
-
 def swap_speakers(left_char, right_char):
     if left_char != left_speaker:
         left_speaker.leave = True
@@ -122,8 +105,10 @@ def swap_emotion(char, emotion):
 quit = False
 show_dialogue = True
 dialogue_next = True
+s = pygame.font.SysFont("comicsansms", 32).\
+                    render('', 1, (255,255,255))
 d = pygame.font.SysFont("comicsansms", 32).\
-                    render('', 1, (0,0,0))
+                    render('', 1, (255,255,255))
 # -------- Main Program Loop ---------
 while not quit:
     # --- Main event loop
@@ -156,13 +141,16 @@ while not quit:
                 swap_emotion(char_emotion[0], char_emotion[1])
             else:
                 print(dialogue)
-                dialogue = dialogue.split(':')
-                d = pygame.font.SysFont("comicsansms", 32).\
-                    render(dialogue[0]+":  "+dialogue[1], 1, (0,0,0))
+                dialogue = dialogue.split(': ')
+                s = pygame.font.SysFont("comicsansms", 20).\
+                    render(dialogue[0], 1, (180,180,180))
+                d = pygame.font.SysFont("comicsansms", 28).\
+                    render(dialogue[1], 1, (255,255,255))
                 dialogue_next = False
 
-        screen.blit(test_bg, (0,0))
-        screen.blit(d, (850,500))
+        screen.blit(bg_dia_castle, (0,0))
+        screen.blit(s, (590,830))
+        screen.blit(d, (590,885))
         speaker_Group.update()
         speaker_Group.draw(screen)
         pygame.display.flip()
@@ -175,7 +163,6 @@ while not quit:
     if add_sprite > 60:
         skillIcon_Group.add(SkillIcon("SKILL_NAME"))
         add_sprite = 0
-        # Shana_sprite.health -= 9
     add_sprite += 1
     Cid.health -= 1
     bob.health -= 1
@@ -184,7 +171,7 @@ while not quit:
     for en in enemy_List:
         if en.health < 0:
             dialogue_idx = 0
-            show_dialogue = True
+            # show_dialogue = True
             en.die()
             enemy_List.remove(en)
     # Check Enemy Collision
@@ -203,8 +190,8 @@ while not quit:
     screen.blit(gold_text, (5, 50))
 
     # draw hitbox
-    # hitbox = pygame.Surface((wall.width, wall.height))
-    # screen.blit(hitbox, (wall.x, wall.y))
+    # hitbox = pygame.Surface((bob.hitbox.width, bob.hitbox.height))
+    # screen.blit(hitbox, (bob.hitbox.x, bob.hitbox.y))
 
     # --- update Sprites
     skillIcon_Group.update()
@@ -217,10 +204,6 @@ while not quit:
     char_Group.draw(screen)
     enemy_Group.draw(screen)
     health_Group.draw(screen)
-
-    # if (show_dialogue):
-    #     screen.blit(test_bg, (0,0))
-    #     screen.blit(d, (screen.get_width()/2,screen.get_height()/2))
 
     pygame.display.flip()
  

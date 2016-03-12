@@ -4,7 +4,7 @@ from HealthBar import *
 
 FLOOR = 780
 HITBOX = (80,230)
-HITBOX_OFFSET = 150
+HITBOX_OFFSET = 50
 
 
 # Enemy Class gawt damn
