@@ -8,12 +8,12 @@ from Enemy import Enemy
 class Melee_Enemy(Enemy):
     def __init__(self, x):
         idle = SpriteSheet("art/en_melee_minion_atk.png").images_at(
-            [(0,0,400,400)],colourkey=(0,255,0))
+            [(0,0,400,300)],colourkey=(0,255,0))
         attack = SpriteSheet("art/en_melee_minion_atk.png").images_at(
-            [(0,0,400,400),
-             (400,0,400,400),
-             (800,0,400,400),
-             (1200,0,400,400)],colourkey=(0,255,0))
+            [(0,0,400,300),
+             (400,0,400,300),
+             (800,0,400,300),
+             (1200,0,400,300)],colourkey=(0,255,0))
         Enemy.__init__(self, x, idle, idle, attack)
         self.can_move = True
 

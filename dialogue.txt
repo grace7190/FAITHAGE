@@ -5,8 +5,8 @@ LUXON: isnt this dialogue sexy af?
 [Shana, Cid]
 CID: hey guys i wann be involved
 SHANA: lol nerd
-{Cid, 1}
 CID: !
 ===
+{Cid, 1}
 CID: that guy died
 ===
