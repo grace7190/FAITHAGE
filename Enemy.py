@@ -4,7 +4,7 @@ from HealthBar import *
 
 FLOOR = 780
 HITBOX = (80,230)
-HITBOX_OFFSET = 150
+HITBOX_OFFSET = 50
 
 
 # Enemy Class gawt damn
@@ -18,12 +18,19 @@ class Enemy(pygame.sprite.Sprite):
         self.sprite_id = 0
         self.image = self.current_anim[self.sprite_id]
         self.rect = self.image.get_rect()
-        self.health = 100
-        self.total_health = 100
         self.healthbar = HealthBar(self, (153, 51, 102))
         self.hitbox = pygame.Rect(
             (x, FLOOR - self.image.get_height() + 20 + HITBOX_OFFSET),
             HITBOX)
+        self.can_move = True
+        self.attacking = False
+
+    def change_anim(self, anim):
+        if anim != self.current_anim:
+            self.current_anim = anim
+            self.sprite_id = 0
+            self.image = self.current_anim[(self.sprite_id)//12]
+            self.rect = self.image.get_rect()
 
     def update(self):
         self.rect.centerx = self.hitbox.centerx
@@ -33,3 +40,5 @@ class Enemy(pygame.sprite.Sprite):
         if self.sprite_id >= len(self.current_anim)*12:
             self.sprite_id = 0
         self.image = self.current_anim[(self.sprite_id)//12]
+        self.attacking = not self.can_move
+

@@ -1,9 +1,11 @@
 import pygame
 import os
 import ctypes
+from random import randint
 from Skill import *
 from Speaker import *
-from Melee_Enemy import *
+from MeleeEnemy import *
+from RangedEnemy import *
 from Cid import *
 from Shana import *
 from Luxon import *
@@ -26,6 +28,9 @@ clock = pygame.time.Clock()
 
 # TESTING ONLY - global vars
 test_bg = pygame.image.load("art/bg_temp.jpg").convert()
+bg_dia_castle = pygame.image.load("art/bg_dia_castle.jpg").convert()
+ui_icons = pygame.image.load("art/ui_overlay.png").convert()
+ui_icons.set_colorkey((255,255,255))
 click_sound = pygame.mixer.Sound("sound/fx_test.ogg")
 click_sound.set_volume(0.1)
 dialogue_file = open("dialogue.txt")
@@ -46,17 +51,26 @@ char_Group = pygame.sprite.Group()
 char_Group.add(Shana)
 char_Group.add(Cid)
 char_Group.add(Luxon)
-limit = pygame.Rect((Shana.hitbox.x + Shana.hitbox.width, 0), (50, 1000))
+melee_limit = pygame.Rect((Shana.hitbox.x + Shana.hitbox.width, 0), (50, 1000))
+ranged_limit = pygame.Rect((1150, 0), (50, 1000))
 
 # Enemy Group
 enemy_Group = pygame.sprite.Group()
-enemy_List = []
-bob = Melee_Enemy(650)
-enemy_List.append(bob)
-enemy_List.append(Melee_Enemy(850))
-enemy_List.append(Melee_Enemy(3000))
-enemy_List.append(Melee_Enemy(2000))
-for en in enemy_List:
+m_enemy_List = []
+r_enemy_List = []
+
+bob = MeleeEnemy(650)
+m_enemy_List.append(bob)
+m_enemy_List.append(MeleeEnemy(850))
+m_enemy_List.append(MeleeEnemy(3000))
+m_enemy_List.append(MeleeEnemy(2000))
+
+r_enemy_List.append(RangedEnemy(1300))
+r_enemy_List.append(RangedEnemy(2000))
+r_enemy_List.append(RangedEnemy(1600))
+for en in m_enemy_List:
+    enemy_Group.add(en)
+for en in r_enemy_List:
     enemy_Group.add(en)
 
 # Set up Healthbars
@@ -75,24 +89,6 @@ left_speaker = Speaker("SHANA", -1)
 right_speaker = Speaker("LUXON", 1)
 speaker_Group.add(left_speaker)
 speaker_Group.add(right_speaker)
-
-
-# def get_dialogue(f):
-#     dialogue_list = []
-#     for line in f:
-#         if line.strip() == "===":
-#             break
-#         if line[0] == '[':
-#             speakers = line[1:-2].split(',')
-#             (left_speaker, right_speaker) = swap_speakers(speakers[0], speakers[1])
-#             continue
-#         if line[0] == '{':
-#             char_emotion = line[1:-2].split(',')
-#             swap_emotion(char_emotion[0], char_emotion[1])
-#             continue
-#         l = line.split(':')
-#         dialogue_list.append((l[0].strip(),l[1].strip()))
-#     return dialogue_list
 
 
 def swap_speakers(left_char, right_char):
@@ -120,10 +116,13 @@ def swap_emotion(char, emotion):
 
 # Loop until the user clicks the close button.
 quit = False
-show_dialogue = True
+show_dialogue = False
 dialogue_next = True
+s = pygame.font.SysFont("comicsansms", 32).\
+                    render('', 1, (255,255,255))
 d = pygame.font.SysFont("comicsansms", 32).\
-                    render('', 1, (0,0,0))
+                    render('', 1, (255,255,255))
+
 # -------- Main Program Loop ---------
 while not quit:
     # --- Main event loop
@@ -141,6 +140,8 @@ while not quit:
         elif event.type == pygame.KEYDOWN:
             if pygame.key.get_pressed()[pygame.K_SPACE]:
                 dialogue_next = True
+            if pygame.key.get_pressed()[pygame.K_ESCAPE]:
+                quit = True
 
     # DIALOGUE
     if show_dialogue:
@@ -155,41 +156,56 @@ while not quit:
                 char_emotion = dialogue[1:-1].split(', ')
                 swap_emotion(char_emotion[0], char_emotion[1])
             else:
-                print(dialogue)
-                dialogue = dialogue.split(':')
-                d = pygame.font.SysFont("comicsansms", 32).\
-                    render(dialogue[0]+":  "+dialogue[1], 1, (0,0,0))
+                dialogue = dialogue.split(': ')
+                s = pygame.font.SysFont("comicsansms", 20).\
+                    render(dialogue[0], 1, (180,180,180))
+                d = pygame.font.SysFont("comicsansms", 28).\
+                    render(dialogue[1], 1, (255,255,255))
                 dialogue_next = False
 
-        screen.blit(test_bg, (0,0))
-        screen.blit(d, (850,500))
+        screen.blit(bg_dia_castle, (0,0))
+        screen.blit(s, (590,830))
+        screen.blit(d, (590,885))
         speaker_Group.update()
         speaker_Group.draw(screen)
         pygame.display.flip()
         clock.tick(60)
         continue
 
-
-
     # Testing multiple skills
     if add_sprite > 60:
         skillIcon_Group.add(SkillIcon("SKILL_NAME"))
         add_sprite = 0
-        # Shana_sprite.health -= 9
     add_sprite += 1
-    Cid.health -= 1
-    bob.health -= 1
 
     # Check dead Enemies
-    for en in enemy_List:
+    for en in m_enemy_List:
         if en.health < 0:
             dialogue_idx = 0
-            show_dialogue = True
+            # show_dialogue = True
             en.die()
-            enemy_List.remove(en)
+            m_enemy_List.remove(en)
+    for en in r_enemy_List:
+        if en.health < 0:
+            dialogue_idx = 0
+            en.die()
+            r_enemy_List.remove(en)
+
     # Check Enemy Collision
-    for enemy in enemy_List:
-        enemy.check_can_move(limit, enemy_List)
+    for en in m_enemy_List:
+        en.check_can_move(melee_limit, m_enemy_List)
+    for en in r_enemy_List:
+        en.check_can_move(ranged_limit, r_enemy_List)
+
+    # Check Hero damage taken
+    for en in m_enemy_List:
+        if en.attacking and en.attack_time >= en.time_till_attack:
+            en.attack_time = 0
+            Shana.health -= en.damage
+    for en in r_enemy_List:
+        if en.attacking and en.attack_time >= en.time_till_attack:
+            en.attack_time = 0
+            [Shana, Cid, Luxon][randint(0,2)].health -= en.damage
 
     # Setting up UI text
     xp_text = pygame.font.SysFont("comicsansms", 32).\
@@ -201,10 +217,12 @@ while not quit:
     screen.blit(test_bg, (0,0))
     screen.blit(xp_text, (5, 10))
     screen.blit(gold_text, (5, 50))
+    screen.blit(ui_icons, (0,0))
 
-    # draw hitbox
-    # hitbox = pygame.Surface((wall.width, wall.height))
-    # screen.blit(hitbox, (wall.x, wall.y))
+# #### draw hitbox
+    # hitbox = pygame.Surface((Cid.hitbox.width, Cid.hitbox.height))
+    # screen.blit(hitbox, (Cid.hitbox.x, Cid.hitbox.y))
+# ####
 
     # --- update Sprites
     skillIcon_Group.update()
@@ -217,10 +235,6 @@ while not quit:
     char_Group.draw(screen)
     enemy_Group.draw(screen)
     health_Group.draw(screen)
-
-    # if (show_dialogue):
-    #     screen.blit(test_bg, (0,0))
-    #     screen.blit(d, (screen.get_width()/2,screen.get_height()/2))
 
     pygame.display.flip()
  
