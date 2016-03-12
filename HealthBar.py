@@ -3,6 +3,7 @@ from SpriteSheet import *
 
 BAR_SIZE = 120
 
+
 # A Healthbar sprite
 class HealthBar(pygame.sprite.Sprite):
     def __init__(self, unit, colour):
