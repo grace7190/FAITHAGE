@@ -32,3 +32,6 @@ class Speaker(pygame.sprite.Sprite):
             if self.image.get_alpha() < 220:
                 self.image.set_alpha(self.image.get_alpha() + 10)
                 self.rect.x += -1*self.side
+            else:
+                self.image = self.speaker[self.emotion_id].convert()
+                self.image.set_alpha(255)

@@ -2,7 +2,6 @@ import pygame
 import os
 import ctypes
 from Skill import *
-from Character import *
 from Speaker import *
 from Melee_Enemy import *
 from Cid import *
@@ -78,22 +77,22 @@ speaker_Group.add(left_speaker)
 speaker_Group.add(right_speaker)
 
 
-def get_dialogue(f):
-    dialogue_list = []
-    for line in f:
-        if line.strip() == "===":
-            break
-        if line[0] == '[':
-            speakers = line[1:-2].split(',')
-            (left_speaker, right_speaker) = swap_speakers(speakers[0], speakers[1])
-            continue
-        if line[0] == '{':
-            char_emotion = line[1:-2].split(',')
-            swap_emotion(char_emotion[0], char_emotion[1])
-            continue
-        l = line.split(':')
-        dialogue_list.append((l[0].strip(),l[1].strip()))
-    return dialogue_list
+# def get_dialogue(f):
+#     dialogue_list = []
+#     for line in f:
+#         if line.strip() == "===":
+#             break
+#         if line[0] == '[':
+#             speakers = line[1:-2].split(',')
+#             (left_speaker, right_speaker) = swap_speakers(speakers[0], speakers[1])
+#             continue
+#         if line[0] == '{':
+#             char_emotion = line[1:-2].split(',')
+#             swap_emotion(char_emotion[0], char_emotion[1])
+#             continue
+#         l = line.split(':')
+#         dialogue_list.append((l[0].strip(),l[1].strip()))
+#     return dialogue_list
 
 
 def swap_speakers(left_char, right_char):
@@ -113,15 +112,18 @@ def swap_speakers(left_char, right_char):
 
 
 def swap_emotion(char, emotion):
-    print("dawg")
+    if left_speaker.name == char.upper():
+        left_speaker.emotion_id = int(emotion)
+    else:
+        right_speaker.emotion_id = int(emotion)
     return
 
 # Loop until the user clicks the close button.
 quit = False
 show_dialogue = True
-dialogue_idx = 0
-dialogue = get_dialogue(dialogue_file)
 dialogue_next = True
+d = pygame.font.SysFont("comicsansms", 32).\
+                    render('', 1, (0,0,0))
 # -------- Main Program Loop ---------
 while not quit:
     # --- Main event loop
@@ -140,49 +142,34 @@ while not quit:
             if pygame.key.get_pressed()[pygame.K_SPACE]:
                 dialogue_next = True
 
-
-    # # DIALOGUE TESTING
-    # if show_dialogue:
-    #     if dialogue_next:
-    #         if dialogue_idx >= len(dialogue):
-    #             show_dialogue = False
-    #             dialogue_next = False
-    #         else:
-    #             d = pygame.font.SysFont("comicsansms", 32).\
-    #                 render(dialogue[dialogue_idx][0]+":  "+dialogue[dialogue_idx][1], 1, (0,0,0))
-    #             # speaker = pygame.image.load("art/"+dialogue[dialogue_idx][0]+"_dialogue.png").convert()
-    #             dialogue_idx += 1
-    #             dialogue_next = False
-    #     speaker_Group.update()
-    #     screen.blit(test_bg, (0,0))
-    #     # screen.blit(speaker, (700,300))
-    #     screen.blit(d, (850,500))
-    #     speaker_Group.draw(screen)
-    #     pygame.display.flip()
-    #     clock.tick(60)
-    #     continue
-
-        # DIALOGUE TESTING
+    # DIALOGUE
     if show_dialogue:
-        # dialogue = dialogue_file.
         if dialogue_next:
-            if dialogue_idx >= len(dialogue):
+            dialogue = dialogue_file.next().strip()
+            if dialogue == "===":
                 show_dialogue = False
-                dialogue_next = False
+            elif dialogue[0] == '[':
+                speakers = dialogue[1:-1].split(', ')
+                (left_speaker, right_speaker) = swap_speakers(speakers[0], speakers[1])
+            elif dialogue[0] == '{':
+                char_emotion = dialogue[1:-1].split(', ')
+                swap_emotion(char_emotion[0], char_emotion[1])
             else:
+                print(dialogue)
+                dialogue = dialogue.split(':')
                 d = pygame.font.SysFont("comicsansms", 32).\
-                    render(dialogue[dialogue_idx][0]+":  "+dialogue[dialogue_idx][1], 1, (0,0,0))
-                # speaker = pygame.image.load("art/"+dialogue[dialogue_idx][0]+"_dialogue.png").convert()
-                dialogue_idx += 1
+                    render(dialogue[0]+":  "+dialogue[1], 1, (0,0,0))
                 dialogue_next = False
-        speaker_Group.update()
+
         screen.blit(test_bg, (0,0))
-        # screen.blit(speaker, (700,300))
         screen.blit(d, (850,500))
+        speaker_Group.update()
         speaker_Group.draw(screen)
         pygame.display.flip()
         clock.tick(60)
         continue
+
+
 
     # Testing multiple skills
     if add_sprite > 60:
@@ -197,7 +184,6 @@ while not quit:
     for en in enemy_List:
         if en.health < 0:
             dialogue_idx = 0
-            dialogue = get_dialogue(dialogue_file)
             show_dialogue = True
             en.die()
             enemy_List.remove(en)
