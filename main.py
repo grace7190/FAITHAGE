@@ -16,7 +16,7 @@ ctypes.windll.user32.SetProcessDPIAware()
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,30)
 
 pygame.init()
-screen = pygame.display.set_mode([1920,1080])
+screen = pygame.display.set_mode([1920,1080], pygame.FULLSCREEN)
 pygame.display.set_caption("#FAITHAGE")
 
 # Used to manage how fast the screen updates
@@ -61,9 +61,9 @@ r_enemy_List = []
 
 bob = MeleeEnemy(650)
 m_enemy_List.append(bob)
-m_enemy_List.append(MeleeEnemy(850))
-m_enemy_List.append(MeleeEnemy(3000))
-m_enemy_List.append(MeleeEnemy(2000))
+# m_enemy_List.append(MeleeEnemy(850))
+# m_enemy_List.append(MeleeEnemy(3000))
+# m_enemy_List.append(MeleeEnemy(2000))
 
 r_enemy_List.append(RangedEnemy(1300))
 r_enemy_List.append(RangedEnemy(2000))
@@ -83,27 +83,29 @@ for en in enemy_Group:
 score = 0
 gold = 0
 add_sprite = 0
-moving = False
+moving = True
 background_x = 0
-left_speaker = Speaker("SHANA", -1)
-right_speaker = Speaker("LUXON", 1)
+left_speaker = Speaker("Shana", -1)
+right_speaker = Speaker("Luxon", 1)
 speaker_Group.add(left_speaker)
 speaker_Group.add(right_speaker)
 
 
 def swap_speakers(left_char, right_char):
-    if left_char != left_speaker:
+    print(left_char + "---" + left_speaker.name)
+    if left_char != left_speaker.name:
         left_speaker.leave = True
         left = Speaker(left_char, -1)
         speaker_Group.add(left)
     else:
-        left = left_char
-    if right_char != right_speaker:
+        left = left_speaker
+    print(right_char + "---" + right_speaker.name)
+    if right_char != right_speaker.name:
         right_speaker.leave = True
         right = Speaker(right_char, 1)
         speaker_Group.add(right)
     else:
-        left = left_char
+        right = right_speaker
     return left, right
 
 
@@ -116,7 +118,7 @@ def swap_emotion(char, emotion):
 
 # Loop until the user clicks the close button.
 quit = False
-show_dialogue = False
+show_dialogue = True
 dialogue_next = True
 s = pygame.font.SysFont("comicsansms", 32).\
                     render('', 1, (255,255,255))
@@ -180,13 +182,13 @@ while not quit:
 
     # Check dead Enemies
     for en in m_enemy_List:
-        if en.health < 0:
-            dialogue_idx = 0
+        if en.health <= 0:
+            # dialogue_idx = 0
             # show_dialogue = True
             en.die()
             m_enemy_List.remove(en)
     for en in r_enemy_List:
-        if en.health < 0:
+        if en.health <= 0:
             dialogue_idx = 0
             en.die()
             r_enemy_List.remove(en)
@@ -195,7 +197,10 @@ while not quit:
     for en in m_enemy_List:
         en.check_can_move(melee_limit, m_enemy_List)
     for en in r_enemy_List:
-        en.check_can_move(ranged_limit, r_enemy_List)
+        if en.has_frontline:
+            en.check_can_move(ranged_limit, r_enemy_List)
+        else:
+            en.check_can_move(melee_limit, r_enemy_List)
 
     # Check Hero damage taken
     for en in m_enemy_List:
@@ -207,6 +212,49 @@ while not quit:
             en.attack_time = 0
             [Shana, Cid, Luxon][randint(0,2)].health -= en.damage
 
+    # Check Hero damage given
+    for en in m_enemy_List:
+        if melee_limit.colliderect(en.hitbox):
+            moving = False
+            Shana.change_anim(Shana.attack_anim)
+            Shana.attacking = True
+            if Shana.attack_time >= Shana.time_till_attack:
+                Shana.attack_time = 0
+                en.health -= Shana.damage
+            break
+        else:
+            Shana.attacking = False
+    if m_enemy_List == []: # no more melee (man got damn dis some spaghetto ass code)
+        if r_enemy_List != []:
+            for en in r_enemy_List:
+                if melee_limit.colliderect(en.hitbox):
+                    moving = False
+                    if Shana.attack_time >= Shana.time_till_attack:
+                        Shana.attack_time = 0
+                        en.health -= Shana.damage
+                    break
+                else:
+                    moving = True
+                en.has_frontline = False
+        else:
+            moving = True
+    if moving:
+        Shana.change_anim(Shana.walk_anim)
+        Cid.change_anim(Cid.walk_anim)
+        Luxon.change_anim(Luxon.walk_anim)
+        Shana.attacking = False
+        for en in r_enemy_List:
+            en.hitbox.move_ip(-2,0)
+    else:
+        Cid.change_anim(Cid.idle_anim)
+        Luxon.change_anim(Luxon.idle_anim)
+        Shana.change_anim(Shana.attack_anim)
+        Shana.attacking = True
+
+    # Scroll background
+    if moving:
+        background_x -= 2
+
     # Setting up UI text
     xp_text = pygame.font.SysFont("comicsansms", 32).\
         render("XP: "+str(score), 1, (0,0,0))
@@ -214,14 +262,14 @@ while not quit:
         render("Gold: "+str(gold), 1, (255, 204, 0), (0, 0, 102))
 
     # --- Drawing code
-    screen.blit(test_bg, (0,0))
+    screen.blit(test_bg, (background_x % -(test_bg.get_width()-screen.get_width()),0))
     screen.blit(xp_text, (5, 10))
     screen.blit(gold_text, (5, 50))
     screen.blit(ui_icons, (0,0))
 
 # #### draw hitbox
-    # hitbox = pygame.Surface((Cid.hitbox.width, Cid.hitbox.height))
-    # screen.blit(hitbox, (Cid.hitbox.x, Cid.hitbox.y))
+#     hitbox = pygame.Surface((r_enemy_List[0].hitbox.width, r_enemy_List[0].hitbox.height))
+#     screen.blit(hitbox, (r_enemy_List[0].hitbox.x, r_enemy_List[0].hitbox.y))
 # ####
 
     # --- update Sprites

@@ -42,6 +42,9 @@ class MeleeEnemy(Enemy):
         self.healthbar.kill()
 
     def update(self):
+        if self.health < 0:
+            self.health = 0
+
         Enemy.update(self)
 
         if self.can_move:
