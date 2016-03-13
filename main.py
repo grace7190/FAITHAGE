@@ -36,8 +36,8 @@ click_sound.set_volume(0.1)
 dialogue_file = open("dialogue.txt")
 
 # Characters
-Luxon = Luxon(50)
-Cid = Cid(200)
+Luxon = Luxon(200)
+Cid = Cid(50)
 Shana = Shana(350)
 
 # Miscellaneous Groups
@@ -244,7 +244,7 @@ while not quit:
         Luxon.change_anim(Luxon.walk_anim)
         Shana.attacking = False
         for en in r_enemy_List:
-            en.hitbox.move_ip(-2,0)
+            en.hitbox.move_ip(-3,0)
     else:
         Cid.change_anim(Cid.idle_anim)
         Luxon.change_anim(Luxon.idle_anim)
@@ -253,7 +253,7 @@ while not quit:
 
     # Scroll background
     if moving:
-        background_x -= 2
+        background_x -= 3
 
     # Setting up UI text
     xp_text = pygame.font.SysFont("comicsansms", 32).\
