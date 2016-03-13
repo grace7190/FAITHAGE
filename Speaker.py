@@ -34,6 +34,16 @@ class Speaker(pygame.sprite.Sprite):
             if self.image.get_alpha() < 245:
                 self.image.set_alpha(self.image.get_alpha() + 10)
                 self.rect.x += -1*self.side
+                if self.side == -1:
+                    tmp_alpha = self.image.get_alpha()
+                    self.image = pygame.transform.flip(
+                        self.speaker[self.emotion_id], True, False).convert()
+                    self.image.set_alpha(tmp_alpha)
             else:
-                self.image = self.speaker[self.emotion_id].convert()
+                if self.side == -1:
+                    self.image = pygame.transform.flip(
+                        self.speaker[self.emotion_id], True, False).convert()
+                else:
+                    self.image = self.speaker[self.emotion_id].convert()
+
                 self.image.set_alpha(255)
