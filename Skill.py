@@ -5,7 +5,7 @@ from SpriteSheet import *
 # A Skill Icon which travels the bottom of the screen and
 # must be pressed to activate. Subclass of Sprite.
 class SkillIcon(pygame.sprite.Sprite):
-    def __init__(self, skill_name):
+    def __init__(self, skill_name, y):
         pygame.sprite.Sprite.__init__(self)
         self.skill_name = skill_name
         self.triggered = False
@@ -17,7 +17,8 @@ class SkillIcon(pygame.sprite.Sprite):
                 [(0,0,200,200),
                 (200,0,200,200),
                 (400,0,200,200),
-                (600,0,200,200)],colourkey=(0,255,0))
+                (600,0,200,200),
+                (800,0,200,200)],colourkey=(0,255,0))
             #self.skill = skill_function
         # elif self.skill_name == "SOME_OTHER_SKILL":
         #     self.image = pygame.image.load("SOME_SKILL.png").convert()
@@ -26,7 +27,8 @@ class SkillIcon(pygame.sprite.Sprite):
         self.image.set_alpha(255)
         self.rect = self.image.get_rect()
         self.rect.x = 0
-        self.rect.y = 910
+        self.rect.y = y
+        self.skill_class = SkillName
 
     def update(self):
         if not self.triggered:
@@ -47,11 +49,11 @@ class SkillIcon(pygame.sprite.Sprite):
 
     # Return a skill object for activated skill icon.
     def activate_skill(self):
-        return Skill(self.skill_sprites, self.rect.x)
+        return self.skill_class(self.skill_sprites, self.rect.x)
 
 
 # The activated skill to appear above pressed skill icon. Subclass of Sprite.
-class Skill(pygame.sprite.Sprite):
+class SkillName(pygame.sprite.Sprite):
     def __init__(self, skill_sprites, x):
         pygame.sprite.Sprite.__init__(self)
         self.sprites_array = skill_sprites
@@ -59,11 +61,14 @@ class Skill(pygame.sprite.Sprite):
         self.image = skill_sprites[0]
         self.rect = self.image.get_rect()
         self.rect.x = x
-        self.rect.y = 500
+        self.rect.y = -200
 
     def update(self):
-        self.sprite_id += 1
-        if self.sprite_id >= len(self.sprites_array)*12:
-            self.kill()
+        if self.rect.y < 550:
+            self.rect.move_ip(0, 15)
         else:
-            self.image = self.sprites_array[(self.sprite_id)//12]
+            self.sprite_id += 1
+            if self.sprite_id >= len(self.sprites_array)*6:
+                self.kill()
+            else:
+                self.image = self.sprites_array[(self.sprite_id)//6]
