@@ -27,7 +27,7 @@ clock = pygame.time.Clock()
 # pygame.mouse.set_visible(False)
 
 # TESTING ONLY - global vars
-test_bg = pygame.image.load("art/bg_temp.jpg").convert()
+test_bg = pygame.image.load("art/bg_forest.jpg").convert()
 bg_dia_castle = pygame.image.load("art/bg_dia_castle.jpg").convert()
 ui_icons = pygame.image.load("art/ui_overlay.png").convert()
 ui_icons.set_colorkey((255,255,255))
@@ -41,7 +41,9 @@ Cid = Cid(50)
 Shana = Shana(350)
 
 # Miscellaneous Groups
-skillIcon_Group = pygame.sprite.Group()
+S_skill_Group = pygame.sprite.Group()
+L_skill_Group = pygame.sprite.Group()
+C_skill_Group = pygame.sprite.Group()
 skill_Group = pygame.sprite.Group()
 health_Group = pygame.sprite.Group()
 speaker_Group = pygame.sprite.Group()
@@ -82,24 +84,34 @@ for en in enemy_Group:
 # Variables
 score = 0
 gold = 0
-add_sprite = 0
 moving = True
 background_x = 0
+quit = False
+a_released = True
+s_released = True
+d_released = True
+# Speakers
+show_dialogue = False
+dialogue_next = True
+s = pygame.font.SysFont("comicsansms", 32).render('', 1, (255,255,255))
+d = pygame.font.SysFont("comicsansms", 32).render('', 1, (255,255,255))
 left_speaker = Speaker("Shana", -1)
 right_speaker = Speaker("Luxon", 1)
 speaker_Group.add(left_speaker)
 speaker_Group.add(right_speaker)
+# Skills
+S_skill_y, L_skill_y, C_skill_y = 1000, 915, 835
+S_skill_timer, L_skill_timer, C_skill_timer = 100, 60, 250
+S_skill_time, L_skill_time, C_skill_time = 0, 0, 0
 
 
 def swap_speakers(left_char, right_char):
-    print(left_char + "---" + left_speaker.name)
     if left_char != left_speaker.name:
         left_speaker.leave = True
         left = Speaker(left_char, -1)
         speaker_Group.add(left)
     else:
         left = left_speaker
-    print(right_char + "---" + right_speaker.name)
     if right_char != right_speaker.name:
         right_speaker.leave = True
         right = Speaker(right_char, 1)
@@ -116,14 +128,38 @@ def swap_emotion(char, emotion):
         right_speaker.emotion_id = int(emotion)
     return
 
-# Loop until the user clicks the close button.
-quit = False
-show_dialogue = True
-dialogue_next = True
-s = pygame.font.SysFont("comicsansms", 32).\
-                    render('', 1, (255,255,255))
-d = pygame.font.SysFont("comicsansms", 32).\
-                    render('', 1, (255,255,255))
+
+def find_triggered_skills(score, gold):
+    for skill in S_skill_Group:
+        if not skill.triggered and skill.check_clicked():
+            score += 500
+            gold += 3
+            skill_Group.add(skill.activate_skill())
+    for skill in L_skill_Group:
+        if not skill.triggered and skill.check_clicked():
+            score += 500
+            gold += 3
+            skill_Group.add(skill.activate_skill())
+    for skill in C_skill_Group:
+        if not skill.triggered and skill.check_clicked():
+            score += 500
+            gold += 3
+            skill_Group.add(skill.activate_skill())
+
+
+def activate_skill(skills, score, gold):
+    max_x = 0
+    current = None
+    for s in skills:
+        if (not s.triggered) and (s.rect.x > max_x):
+            current = s
+            max_x = s.rect.x
+    if current:
+        score += 500
+        gold += 3
+        skill_Group.add(current.activate_skill())
+        current.triggered = True
+
 
 # -------- Main Program Loop ---------
 while not quit:
@@ -134,16 +170,31 @@ while not quit:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed()[0]:
                 click_sound.play()
-                for skill in skillIcon_Group:
-                    if not skill.triggered and skill.check_clicked():
-                        score += 500
-                        gold += 3
-                        skill_Group.add(skill.activate_skill())
+                find_triggered_skills(score, gold)
         elif event.type == pygame.KEYDOWN:
             if pygame.key.get_pressed()[pygame.K_SPACE]:
                 dialogue_next = True
             if pygame.key.get_pressed()[pygame.K_ESCAPE]:
                 quit = True
+            if pygame.key.get_pressed()[pygame.K_a]:
+                if a_released:
+                    activate_skill(C_skill_Group, score, gold)
+                    a_released = False
+            if pygame.key.get_pressed()[pygame.K_s]:
+                if s_released:
+                    activate_skill(L_skill_Group, score, gold)
+                    s_released = False
+            if pygame.key.get_pressed()[pygame.K_d]:
+                if d_released:
+                    activate_skill(S_skill_Group, score, gold)
+                    d_released = False
+        elif event.type == pygame.KEYUP:
+            if not pygame.key.get_pressed()[pygame.K_a]:
+                a_released = True
+            if not pygame.key.get_pressed()[pygame.K_s]:
+                s_released = True
+            if not pygame.key.get_pressed()[pygame.K_d]:
+                d_released = True
 
     # DIALOGUE
     if show_dialogue:
@@ -174,11 +225,19 @@ while not quit:
         clock.tick(60)
         continue
 
-    # Testing multiple skills
-    if add_sprite > 60:
-        skillIcon_Group.add(SkillIcon("SKILL_NAME"))
-        add_sprite = 0
-    add_sprite += 1
+    # Skills
+    if S_skill_time >= S_skill_timer:
+        S_skill_Group.add(SkillIcon("SKILL_NAME", S_skill_y))
+        S_skill_time = 0
+    if L_skill_time >= L_skill_timer:
+        L_skill_Group.add(SkillIcon("SKILL_NAME", L_skill_y))
+        L_skill_time = 0
+    if C_skill_time >= C_skill_timer:
+        C_skill_Group.add(SkillIcon("SKILL_NAME", C_skill_y))
+        C_skill_time = 0
+    S_skill_time += 1
+    L_skill_time += 1
+    C_skill_time += 1
 
     # Check dead Enemies
     for en in m_enemy_List:
@@ -224,8 +283,8 @@ while not quit:
             break
         else:
             Shana.attacking = False
-    if m_enemy_List == []: # no more melee (man got damn dis some spaghetto ass code)
-        if r_enemy_List != []:
+    if not m_enemy_List: # no more melee (man got damn dis some spaghetto ass code)
+        if r_enemy_List:
             for en in r_enemy_List:
                 if melee_limit.colliderect(en.hitbox):
                     moving = False
@@ -238,6 +297,8 @@ while not quit:
                 en.has_frontline = False
         else:
             moving = True
+
+    # Set walking
     if moving:
         Shana.change_anim(Shana.walk_anim)
         Cid.change_anim(Cid.walk_anim)
@@ -245,6 +306,8 @@ while not quit:
         Shana.attacking = False
         for en in r_enemy_List:
             en.hitbox.move_ip(-3,0)
+        for skill in skill_Group:
+            skill.rect.move_ip(-3,0)
     else:
         Cid.change_anim(Cid.idle_anim)
         Luxon.change_anim(Luxon.idle_anim)
@@ -273,15 +336,19 @@ while not quit:
 # ####
 
     # --- update Sprites
-    skillIcon_Group.update()
+    S_skill_Group.update()
+    L_skill_Group.update()
+    C_skill_Group.update()
     skill_Group.update()
     char_Group.update()
     enemy_Group.update()
     # --- update the screen
-    skillIcon_Group.draw(screen)
-    skill_Group.draw(screen)
+    S_skill_Group.draw(screen)
+    L_skill_Group.draw(screen)
+    C_skill_Group.draw(screen)
     char_Group.draw(screen)
     enemy_Group.draw(screen)
+    skill_Group.draw(screen)
     health_Group.draw(screen)
 
     pygame.display.flip()
