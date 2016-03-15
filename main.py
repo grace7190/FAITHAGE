@@ -36,9 +36,9 @@ click_sound.set_volume(0.1)
 dialogue_file = open("dialogue.txt")
 
 # Characters
-Luxon = Luxon(200)
-Cid = Cid(50)
-Shana = Shana(350)
+Luxon = Luxon(350)
+Cid = Cid(200)
+Shana = Shana(500)
 
 # Miscellaneous Groups
 S_skill_Group = pygame.sprite.Group()
@@ -54,34 +54,35 @@ char_Group.add(Shana)
 char_Group.add(Cid)
 char_Group.add(Luxon)
 melee_limit = pygame.Rect((Shana.hitbox.x + Shana.hitbox.width, 0), (50, 1000))
-ranged_limit = pygame.Rect((1150, 0), (50, 1000))
+ranged_limit = pygame.Rect((1250, 0), (50, 1000))
 
 # Enemy Group
 enemy_Group = pygame.sprite.Group()
 m_enemy_List = []
 r_enemy_List = []
 
-bob = MeleeEnemy(650)
-m_enemy_List.append(bob)
+# bob = MeleeEnemy(1650)
+# m_enemy_List.append(bob)
 # m_enemy_List.append(MeleeEnemy(850))
 # m_enemy_List.append(MeleeEnemy(3000))
 # m_enemy_List.append(MeleeEnemy(2000))
 
-r_enemy_List.append(RangedEnemy(1300))
-r_enemy_List.append(RangedEnemy(2000))
-r_enemy_List.append(RangedEnemy(1600))
-for en in m_enemy_List:
-    enemy_Group.add(en)
-for en in r_enemy_List:
-    enemy_Group.add(en)
+r_enemy_List.append(RangedEnemy(2300))
+r_enemy_List.append(RangedEnemy(3000))
+# r_enemy_List.append(RangedEnemy(1600))
+# for en in m_enemy_List:
+#     enemy_Group.add(en)
+# for en in r_enemy_List:
+#     enemy_Group.add(en)
 
 # Set up Healthbars
 for char in char_Group:
     health_Group.add(char.healthbar)
-for en in enemy_Group:
-    health_Group.add(en.healthbar)
+# for en in enemy_Group:
+#     health_Group.add(en.healthbar)
 
 # Variables
+level = 1
 score = 0
 gold = 0
 moving = True
@@ -160,6 +161,22 @@ def activate_skill(skills, score, gold):
         skill_Group.add(current.activate_skill())
         current.triggered = True
 
+def setup_enemies(melee=0, ranged=0, skell=0, zombi=0, melee2=0, ranged2=0, nox=0, stella=0):
+    for i in range(melee):
+        m_enemy_List.append(MeleeEnemy(1920+200*i))
+    for i in range(zombi):
+        m_enemy_List.append(Zombi(1920+200*(i+melee)))
+    # for i in range(melee):
+    #     m_enemy_List.append(MeleeEnemy(1920+200*i))
+    for en in m_enemy_List:
+        enemy_Group.add(en)
+        health_Group.add(en.healthbar)
+    for en in r_enemy_List:
+        enemy_Group.add(en)
+        health_Group.add(en.healthbar)
+
+
+setup_enemies(4)
 
 # -------- Main Program Loop ---------
 while not quit:
@@ -227,13 +244,13 @@ while not quit:
 
     # Skills
     if S_skill_time >= S_skill_timer:
-        S_skill_Group.add(SkillIcon("SKILL_NAME", S_skill_y))
+        S_skill_Group.add(SkillIcon("AIRSTRIKE", S_skill_y))
         S_skill_time = 0
     if L_skill_time >= L_skill_timer:
-        L_skill_Group.add(SkillIcon("SKILL_NAME", L_skill_y))
+        L_skill_Group.add(SkillIcon("DAZZLE", L_skill_y))
         L_skill_time = 0
     if C_skill_time >= C_skill_timer:
-        C_skill_Group.add(SkillIcon("SKILL_NAME", C_skill_y))
+        C_skill_Group.add(SkillIcon("AIRSTRIKE", C_skill_y))
         C_skill_time = 0
     S_skill_time += 1
     L_skill_time += 1
@@ -248,7 +265,6 @@ while not quit:
             m_enemy_List.remove(en)
     for en in r_enemy_List:
         if en.health <= 0:
-            dialogue_idx = 0
             en.die()
             r_enemy_List.remove(en)
 
@@ -305,9 +321,12 @@ while not quit:
         Luxon.change_anim(Luxon.walk_anim)
         Shana.attacking = False
         for en in r_enemy_List:
-            en.hitbox.move_ip(-3,0)
+            if not en.has_frontline:
+                en.hitbox.move_ip(-2,0)
+        for en in m_enemy_List:
+            en.hitbox.move_ip(-2,0)
         for skill in skill_Group:
-            skill.rect.move_ip(-3,0)
+            skill.rect.move_ip(-2,0)
     else:
         Cid.change_anim(Cid.idle_anim)
         Luxon.change_anim(Luxon.idle_anim)
@@ -316,7 +335,7 @@ while not quit:
 
     # Scroll background
     if moving:
-        background_x -= 3
+        background_x -= 2
 
     # Setting up UI text
     xp_text = pygame.font.SysFont("comicsansms", 32).\
@@ -331,8 +350,9 @@ while not quit:
     screen.blit(ui_icons, (0,0))
 
 # #### draw hitbox
-#     hitbox = pygame.Surface((r_enemy_List[0].hitbox.width, r_enemy_List[0].hitbox.height))
-#     screen.blit(hitbox, (r_enemy_List[0].hitbox.x, r_enemy_List[0].hitbox.y))
+    for en in enemy_Group:
+        hitbox = pygame.Surface((en.hitbox.width, en.hitbox.height))
+        screen.blit(hitbox, (en.hitbox.x, en.hitbox.y))
 # ####
 
     # --- update Sprites
