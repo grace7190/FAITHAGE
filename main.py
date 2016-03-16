@@ -109,7 +109,7 @@ speaker_Group.add(left_speaker)
 speaker_Group.add(right_speaker)
 # Skills
 S_skill_y, L_skill_y, C_skill_y = 1000, 915, 835
-S_skill_timer, L_skill_timer, C_skill_timer = 100, 60, 250
+S_skill_timer, L_skill_timer, C_skill_timer = 200, 160, 350
 S_skill_time, L_skill_time, C_skill_time = 0, 0, 0
 
 
@@ -142,17 +142,17 @@ def find_triggered_skills(score, gold):
         if not skill.triggered and skill.check_clicked():
             score += 500
             gold += 3
-            skill_Group.add(skill.activate_skill())
+            skill_Group.add(skill.activate_skill(enemy_Group))
     for skill in L_skill_Group:
         if not skill.triggered and skill.check_clicked():
             score += 500
             gold += 3
-            skill_Group.add(skill.activate_skill())
+            skill_Group.add(skill.activate_skill(enemy_Group))
     for skill in C_skill_Group:
         if not skill.triggered and skill.check_clicked():
             score += 500
             gold += 3
-            skill_Group.add(skill.activate_skill())
+            skill_Group.add(skill.activate_skill(enemy_Group))
 
 
 def activate_skill(skills, score, gold):
@@ -165,7 +165,7 @@ def activate_skill(skills, score, gold):
     if current:
         score += 500
         gold += 3
-        skill_Group.add(current.activate_skill())
+        skill_Group.add(current.activate_skill(enemy_Group))
         current.triggered = True
 
 
