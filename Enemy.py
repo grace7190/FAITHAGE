@@ -32,6 +32,30 @@ class Enemy(pygame.sprite.Sprite):
             self.image = self.current_anim[(self.sprite_id)//12]
             self.rect = self.image.get_rect()
 
+    def check_can_move(self, limit, unit_list):
+        if self.hitbox.colliderect(limit):
+            self.can_move = False
+        else:
+            hitbox_list = []
+            for i in unit_list:
+                if type(i)==type(self):
+                    hitbox_list.append(i.hitbox)
+            hitbox_list.remove(self.hitbox)
+            collisions = self.hitbox.collidelistall(hitbox_list)
+            if not collisions:
+                self.can_move = True
+            else:
+                for hitbox_idx in collisions:
+                    if hitbox_list[hitbox_idx].x < self.hitbox.x:
+                        self.can_move = False
+                        break
+                    self.can_move = True
+
+        if self.can_move:
+            self.change_anim(self.walk_anim)
+        else:
+            self.change_anim(self.attack_anim)
+
     def update(self):
         self.rect.centerx = self.hitbox.centerx
         self.rect.y = self.hitbox.y - HITBOX_OFFSET

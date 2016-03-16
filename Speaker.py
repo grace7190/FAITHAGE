@@ -9,7 +9,7 @@ class Speaker(pygame.sprite.Sprite):
         #         [(0,0,200,200),
         #         (200,0,200,200),
         #         (400,0,200,200)],colourkey=(0,255,0))
-        self.speaker = SpriteSheet("art/pl_dia_cid.png").images_at(
+        self.speaker = SpriteSheet("art/pl_dia_"+speaker_sprites.lower()+".png").images_at(
             [(0,0,600,800)], colourkey=(0,255,0))
         self.name = speaker_sprites
         self.emotion_id = 0
@@ -34,13 +34,13 @@ class Speaker(pygame.sprite.Sprite):
             if self.image.get_alpha() < 245:
                 self.image.set_alpha(self.image.get_alpha() + 10)
                 self.rect.x += -1*self.side
-                if self.side == -1:
+                if self.side == 1:
                     tmp_alpha = self.image.get_alpha()
                     self.image = pygame.transform.flip(
                         self.speaker[self.emotion_id], True, False).convert()
                     self.image.set_alpha(tmp_alpha)
             else:
-                if self.side == -1:
+                if self.side == 1:
                     self.image = pygame.transform.flip(
                         self.speaker[self.emotion_id], True, False).convert()
                 else:

@@ -8,7 +8,7 @@ from Character import Character
 class Cid(Character):
     def __init__(self, x):
         idle = SpriteSheet("art/pl_cid.png").images_at(
-                [(0,0,400,400)],colourkey=(0,255,0))
+                [(0,0,300,400)],colourkey=(0,255,0))
         walk = SpriteSheet("art/pl_cid_walk.png").images_at(
                 [(0,0,300,400),
                 (300,0,300,400)],colourkey=(0,255,0))
