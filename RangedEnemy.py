@@ -57,7 +57,7 @@ class RangedEnemy(Enemy):
                 if self.current_anim != self.walk_anim:
                     self.current_anim = self.walk_anim
                     self.sprite_id = 0
-                self.hitbox.move_ip(-2,0)
+                self.hitbox.move_ip(-3,0)
 
         if self.attacking:
             self.attack_time += 1

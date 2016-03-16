@@ -21,23 +21,6 @@ class MeleeEnemy(Enemy):
         self.health = 100
         self.total_health = 100
 
-    def check_can_move(self, limit, unit_list):
-        if self.hitbox.colliderect(limit):
-            self.can_move = False
-            self.change_anim(self.attack_anim)
-            return
-        hitbox_list = []
-        for i in unit_list:
-            if type(i)==type(self):
-                hitbox_list.append(i.hitbox)
-        hitbox_list.remove(self.hitbox)
-        if self.hitbox.collidelist(hitbox_list) == -1:
-            self.change_anim(self.walk_anim)
-            self.can_move = True
-        else:
-            self.can_move = False
-            self.change_anim(self.attack_anim)
-
     def die(self):
         self.kill()
         self.healthbar.kill()
@@ -72,29 +55,9 @@ class Zombi(Enemy):
         Enemy.__init__(self, x, idle, walk, attack)
         self.damage = 3
         self.attack_time = 0
-        self.time_till_attack = 60
-        self.health = 100
-        self.total_health = 100
-
-    def check_can_move(self, limit, unit_list):
-        if self.hitbox.colliderect(limit):
-            self.can_move = False
-            self.change_anim(self.attack_anim)
-            print(1)
-            return
-        hitbox_list = []
-        for i in unit_list:
-            if type(i)==type(self):
-                hitbox_list.append(i.hitbox)
-        hitbox_list.remove(self.hitbox)
-        if self.hitbox.collidelist(hitbox_list) == -1:
-            self.change_anim(self.walk_anim)
-            self.can_move = True
-            print(2)
-        else:
-            print(3)
-            self.can_move = False
-            self.change_anim(self.attack_anim)
+        self.time_till_attack = 50
+        self.health = 60
+        self.total_health = 60
 
     def die(self):
         self.kill()

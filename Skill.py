@@ -35,7 +35,7 @@ class SkillIcon(pygame.sprite.Sprite):
 
         self.image.set_alpha(255)
         self.rect = self.image.get_rect()
-        self.rect.x = 0
+        self.rect.x = 200
         self.rect.y = y
 
     def update(self):
@@ -44,7 +44,7 @@ class SkillIcon(pygame.sprite.Sprite):
         else:
             self.image.set_alpha(self.image.get_alpha() - 10)
         # Destroy when past screen
-        if self.rect.x > 1920:
+        if self.rect.x > 1650:
             self.kill()
 
     # Check if skill has been clicked. Trigger if true.

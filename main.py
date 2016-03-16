@@ -9,6 +9,7 @@ from RangedEnemy import *
 from Cid import *
 from Shana import *
 from Luxon import *
+from Levels import *
 
 # Just changing the window position so I can see the whole screen.
 # Might not be the same for your monitor?
@@ -26,8 +27,9 @@ clock = pygame.time.Clock()
 # Hide the mouse cursor
 # pygame.mouse.set_visible(False)
 
-# TESTING ONLY - global vars
-test_bg = pygame.image.load("art/bg_forest.jpg").convert()
+# more vars
+Levels = Levels()
+bg = pygame.image.load("art/bg_forest.jpg").convert()
 bg_dia_castle = pygame.image.load("art/bg_dia_castle.jpg").convert()
 ui_icons = pygame.image.load("art/ui_overlay.png").convert()
 ui_icons.set_colorkey((255,255,255))
@@ -67,8 +69,8 @@ r_enemy_List = []
 # m_enemy_List.append(MeleeEnemy(3000))
 # m_enemy_List.append(MeleeEnemy(2000))
 
-r_enemy_List.append(RangedEnemy(2300))
-r_enemy_List.append(RangedEnemy(3000))
+# r_enemy_List.append(RangedEnemy(2300))
+# r_enemy_List.append(RangedEnemy(3000))
 # r_enemy_List.append(RangedEnemy(1600))
 # for en in m_enemy_List:
 #     enemy_Group.add(en)
@@ -82,7 +84,9 @@ for char in char_Group:
 #     health_Group.add(en.healthbar)
 
 # Variables
-level = 1
+level = 0
+chapter = 0
+wave = -1
 score = 0
 gold = 0
 moving = True
@@ -91,8 +95,9 @@ quit = False
 a_released = True
 s_released = True
 d_released = True
+title_time = 0
 # Speakers
-show_dialogue = False
+show_dialogue = True
 dialogue_next = True
 s = pygame.font.SysFont("comicsansms", 32).render('', 1, (255,255,255))
 d = pygame.font.SysFont("comicsansms", 32).render('', 1, (255,255,255))
@@ -161,22 +166,13 @@ def activate_skill(skills, score, gold):
         skill_Group.add(current.activate_skill())
         current.triggered = True
 
-def setup_enemies(melee=0, ranged=0, skell=0, zombi=0, melee2=0, ranged2=0, nox=0, stella=0):
-    for i in range(melee):
-        m_enemy_List.append(MeleeEnemy(1920+200*i))
-    for i in range(zombi):
-        m_enemy_List.append(Zombi(1920+200*(i+melee)))
-    # for i in range(melee):
-    #     m_enemy_List.append(MeleeEnemy(1920+200*i))
-    for en in m_enemy_List:
-        enemy_Group.add(en)
-        health_Group.add(en.healthbar)
-    for en in r_enemy_List:
-        enemy_Group.add(en)
-        health_Group.add(en.healthbar)
 
+def setup_level(level, wave):
+    global bg
+    # bg = pygame.image.load("art/bg_forest.jpg").convert()
 
-setup_enemies(4)
+    # setup_enemies(melee)
+
 
 # -------- Main Program Loop ---------
 while not quit:
@@ -259,14 +255,24 @@ while not quit:
     # Check dead Enemies
     for en in m_enemy_List:
         if en.health <= 0:
-            # dialogue_idx = 0
-            # show_dialogue = True
             en.die()
             m_enemy_List.remove(en)
     for en in r_enemy_List:
         if en.health <= 0:
             en.die()
             r_enemy_List.remove(en)
+    if not (r_enemy_List or m_enemy_List):
+        moving = True
+        title_time = 200
+        wave += 1
+        if wave > 1:
+            wave = 0
+            chapter += 1
+        if chapter > 2:
+            chapter = 0
+            level += 1
+        Levels.setup_enemies(level, chapter, wave, m_enemy_List, r_enemy_List, enemy_Group, health_Group)
+
 
     # Check Enemy Collision
     for en in m_enemy_List:
@@ -342,17 +348,24 @@ while not quit:
         render("XP: "+str(score), 1, (0,0,0))
     gold_text = pygame.font.SysFont("comicsansms", 32).\
         render("Gold: "+str(gold), 1, (255, 204, 0), (0, 0, 102))
+    title_text = pygame.font.SysFont("comicsansms", 50, True).\
+        render("CHAPTER "+str(level+1)+"-"+str(chapter+1)+"  WAVE "+str(wave+1), 1, (0, 0, 0))
+
+    if title_time > 0:
+        title_time -= 1
 
     # --- Drawing code
-    screen.blit(test_bg, (background_x % -(test_bg.get_width()-screen.get_width()),0))
+    screen.blit(bg, (background_x % -(bg.get_width()-screen.get_width()),0))
     screen.blit(xp_text, (5, 10))
     screen.blit(gold_text, (5, 50))
+    if title_time > 0:
+        screen.blit(title_text, (600,50))
     screen.blit(ui_icons, (0,0))
 
 # #### draw hitbox
-    for en in enemy_Group:
-        hitbox = pygame.Surface((en.hitbox.width, en.hitbox.height))
-        screen.blit(hitbox, (en.hitbox.x, en.hitbox.y))
+#     for en in enemy_Group:
+#         hitbox = pygame.Surface((en.hitbox.width, en.hitbox.height))
+#         screen.blit(hitbox, (en.hitbox.x, en.hitbox.y))
 # ####
 
     # --- update Sprites
