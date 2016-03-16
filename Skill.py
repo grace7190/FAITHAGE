@@ -56,13 +56,13 @@ class SkillIcon(pygame.sprite.Sprite):
             return False
 
     # Return a skill object for activated skill icon.
-    def activate_skill(self):
-        return self.skill_class(self.skill_sprites, self.rect.centerx)
+    def activate_skill(self, enemy_Group):
+        return self.skill_class(self.skill_sprites, self.rect.centerx, enemy_Group)
 
 
 # The activated skill to appear above pressed skill icon. Subclass of Sprite.
 class Airstrike(pygame.sprite.Sprite):
-    def __init__(self, skill_sprites, x):
+    def __init__(self, skill_sprites, x, enemy_Group):
         pygame.sprite.Sprite.__init__(self)
         self.sprites_array = skill_sprites
         self.sprite_id = 0
@@ -70,19 +70,29 @@ class Airstrike(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.y = -200
+        self.enemy_list = []
+        self.hitbox_list = []
+        for en in enemy_Group:
+            self.hitbox_list.append(en.hitbox)
+            self.enemy_list.append(en)
 
     def update(self):
         if self.rect.y < 575:
             self.rect.move_ip(0, 15)
         else:
             self.sprite_id += 1
+            if self.sprite_id == 2:
+                hits_idx = self.rect.collidelistall(self.hitbox_list)
+                for i in hits_idx:
+                    self.enemy_list[i].health -= 20
             if self.sprite_id >= len(self.sprites_array)*6:
                 self.kill()
             else:
                 self.image = self.sprites_array[(self.sprite_id)//6]
 
+
 class Dazzle(pygame.sprite.Sprite):
-    def __init__(self, skill_sprites, x):
+    def __init__(self, skill_sprites, x, enemy_Group):
         pygame.sprite.Sprite.__init__(self)
         self.sprites_array = skill_sprites
         self.sprite_id = 0
@@ -90,9 +100,18 @@ class Dazzle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.y = 550
+        self.enemy_list = []
+        self.hitbox_list = []
+        for en in enemy_Group:
+            self.hitbox_list.append(en.hitbox)
+            self.enemy_list.append(en)
 
     def update(self):
         self.sprite_id += 1
+        if self.sprite_id == 1:
+                hits_idx = self.rect.collidelistall(self.hitbox_list)
+                for i in hits_idx:
+                    self.enemy_list[i].stun = 90
         if self.sprite_id >= len(self.sprites_array)*6:
             self.kill()
         else:

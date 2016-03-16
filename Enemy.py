@@ -24,6 +24,7 @@ class Enemy(pygame.sprite.Sprite):
             HITBOX)
         self.can_move = True
         self.attacking = False
+        self.stun = 0
 
     def change_anim(self, anim):
         if anim != self.current_anim:
@@ -57,6 +58,10 @@ class Enemy(pygame.sprite.Sprite):
             self.change_anim(self.attack_anim)
 
     def update(self):
+        if self.stun > 0:
+            self.stun -= 1
+            self.can_move = False
+            self.change_anim(self.idle_anim)
         self.rect.centerx = self.hitbox.centerx
         self.rect.y = self.hitbox.y - HITBOX_OFFSET
         self.healthbar.update()
@@ -64,5 +69,6 @@ class Enemy(pygame.sprite.Sprite):
         if self.sprite_id >= len(self.current_anim)*12:
             self.sprite_id = 0
         self.image = self.current_anim[(self.sprite_id)//12]
-        self.attacking = not self.can_move
+        self.attacking = not (self.can_move or self.stun > 0)
+
 
