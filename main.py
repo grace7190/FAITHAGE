@@ -33,6 +33,8 @@ bg = pygame.image.load("art/bg_forest.jpg").convert()
 bg_dia_castle = pygame.image.load("art/bg_dia_castle.jpg").convert()
 ui_icons = pygame.image.load("art/ui_overlay.png").convert()
 ui_icons.set_colorkey((255,255,255))
+ui_icons_top = pygame.image.load("art/ui_overlay_top.png").convert()
+ui_icons_top.set_colorkey((255,255,255))
 click_sound = pygame.mixer.Sound("sound/fx_test.ogg")
 click_sound.set_volume(0.1)
 dialogue_file = open("dialogue.txt")
@@ -383,6 +385,8 @@ while not quit:
     enemy_Group.draw(screen)
     skill_Group.draw(screen)
     health_Group.draw(screen)
+
+    screen.blit(ui_icons_top, (0,0))
 
     pygame.display.flip()
  

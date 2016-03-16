@@ -35,7 +35,7 @@ class SkillIcon(pygame.sprite.Sprite):
 
         self.image.set_alpha(255)
         self.rect = self.image.get_rect()
-        self.rect.x = 200
+        self.rect.x = 250
         self.rect.y = y
 
     def update(self):
