@@ -91,10 +91,10 @@ a_released = True
 s_released = True
 d_released = True
 # Speakers
-show_dialogue = False
+show_dialogue = True
 dialogue_next = True
-s = pygame.font.SysFont("comicsansms", 32).render('', 1, (255,255,255))
-d = pygame.font.SysFont("comicsansms", 32).render('', 1, (255,255,255))
+s = pygame.font.Font("resources/SourceSerifPro-Regular.otf", 32).render('', 1, (255,255,255))
+d = pygame.font.Font("resources/SourceSerifPro-Regular.otf", 32).render('', 1, (255,255,255))
 left_speaker = Speaker("Shana", -1)
 right_speaker = Speaker("Luxon", 1)
 speaker_Group.add(left_speaker)
@@ -210,9 +210,9 @@ while not quit:
                 swap_emotion(char_emotion[0], char_emotion[1])
             else:
                 dialogue = dialogue.split(': ')
-                s = pygame.font.SysFont("comicsansms", 20).\
+                s = pygame.font.Font("resources/SourceSerifPro-Regular.otf", 28).\
                     render(dialogue[0], 1, (180,180,180))
-                d = pygame.font.SysFont("comicsansms", 28).\
+                d = pygame.font.Font("resources/SourceSerifPro-Regular.otf", 28).\
                     render(dialogue[1], 1, (255,255,255))
                 dialogue_next = False
 
