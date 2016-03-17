@@ -39,7 +39,7 @@ ui_icons_top = pygame.image.load("art/ui_overlay_top.png").convert()
 ui_icons_top.set_colorkey((255,255,255))
 click_sound = pygame.mixer.Sound("sound/fx_test.ogg")
 click_sound.set_volume(0.1)
-dialogue_file = open("dialogue.txt")
+dialogue_file = open("dialogue_new.txt")
 
 backgrounds = [pygame.image.load("art/bg_plains.jpg").convert(),
                pygame.image.load("art/bg_forest.jpg").convert(),

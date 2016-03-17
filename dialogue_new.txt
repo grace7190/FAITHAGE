@@ -52,6 +52,7 @@ Landlord: from rebellious peasants who have turned to the dark side.
 Cid: Oh of course. Blame the peasants. 
 Landlord: Naturally. Glad you understand. Well, chop chop. 
 Landlord: My land isn't going to reclaim itself. 
+*bgm_lvl1*
 ===
 _grass_
 *bgm_dia*
@@ -235,6 +236,7 @@ Shana: Come on, Luxon, we have to get going.
 Shana: You can't ditch us after all we've been through together. 
 Luxon: Sorry Stella, duty calls. I'll be back!
 Stella: Wait-
+*bgm_lvl2*
 ===
 _forest_
 *bgm_dia_happy*
@@ -332,6 +334,7 @@ Stella: Terrorists?!
 Luxon: We do not negotiate with terrorists!
 Stella: ...very well, it appears you cannot be reasoned with. 
 Stella: I will defend the Faith until my last breath. 
+*bgm_lvl3*
 ===
 _sunset_
 *bgm_dia*
