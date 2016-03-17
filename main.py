@@ -80,6 +80,7 @@ for char in char_Group:
 #     health_Group.add(en.healthbar)
 
 # Variables
+game_over = 0
 level = 0
 chapter = 0
 wave = -1
@@ -204,6 +205,13 @@ while not quit:
             if not pygame.key.get_pressed()[pygame.K_d]:
                 d_released = True
 
+    if game_over > 20:
+        game_over_screen = pygame.image.load("art/bg_game_over.jpg").convert()
+        screen.blit(game_over_screen, (0,0))
+        pygame.display.flip()
+        clock.tick(60)
+        continue
+
     # START MENU
     if show_start:
         screen.blit(main_menu, (0,0))
@@ -309,6 +317,9 @@ while not quit:
             target = [Shana, Cid, Luxon][randint(0,2)]
             skill_Group.add(en.launch_skill(target))
             # [Shana, Cid, Luxon][randint(0,2)].health -= en.damage
+    for en in char_Group:
+        if en.health == 0:
+            game_over += 1
 
     # Check Hero damage given
     for en in m_enemy_List:
