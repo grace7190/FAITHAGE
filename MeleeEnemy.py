@@ -109,3 +109,32 @@ class MeleeEnemyG(MeleeEnemy):
              (1200,0,400,300)],colourkey=(0,255,0))
         self.health = 150
         self.total_health = 150
+
+
+class Nox(MeleeEnemy):
+    def __init__(self, x):
+        MeleeEnemy.__init__(self, x)
+        self.idle_anim = SpriteSheet("art/en_nox_necro.png").images_at(
+            [(0,0,400,400)],colourkey=(0,255,0))
+        self.walk_anim = self.idle_anim
+        self.attack_anim = self.idle_anim
+        self.damage = 0
+        self.health = 50
+        self.total_health = 50
+        self.hitbox.y -= 100 #just cause
+        self.dead = False
+
+    def die(self):
+        self.dead = True
+        self.image = pygame.image.load("art/en_nox.png").convert()
+        self.image.set_colorkey((0,255,0))
+        self.image.set_alpha(255)
+
+    def update(self):
+        if self.dead:
+            self.image.set_alpha(self.image.get_alpha() - 5)
+            if self.image.get_alpha() <= 10:
+                self.kill()
+                self.healthbar.kill()
+        else:
+            MeleeEnemy.update(self)
