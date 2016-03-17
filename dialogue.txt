@@ -1,12 +1,21 @@
-[Shana, Luxon]
-SHANA: hey bb
-LUXON: what is the up?
-LUXON: isnt this dialogue sexy af?
-[Shana, Cid]
-CID: hey guys i wann be involved
-SHANA: lol nerd
-CID: !
-===
-{Cid, 1}
-CID: that guy died
-===
+_castle_
+*bgm_nox_theme*
+[Cid, Blank]
+Cid: This castle has suspiciously empty. What if it's a trap?
+[Cid, NoxNecro]
+Arch Lich: Well. At least one of you has some brains. 
+[Luxon, NoxNecro]
+Luxon: Eep! It's the Arch Lich! 
+[Cid, NoxNecro]
+Cid: Stay alert!
+Arch Lich: I was kidding. I already sent everyone away. I will face you alone.
+Cid: Your reign of terror ends mere?
+Arch Lich: MY reign of terror? How... interesting. 
+Cid: What else would you call it? 
+Arch Lich: I'd tell you, but you wouldn't believe me.
+Cid: Try me.
+[Luxon, NoxNecro]
+Luxon: Enough talking! 
+[Cid, NoxNecro]
+Cid: But I wanted to hear her evil monologue :(
+Arch Lich: As I wanted to give it. But alas, it seems we must move on.Surrender now, or prepare to fight!

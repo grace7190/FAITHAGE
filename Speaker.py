@@ -10,7 +10,7 @@ class Speaker(pygame.sprite.Sprite):
         #         (200,0,200,200),
         #         (400,0,200,200)],colourkey=(0,255,0))
         self.speaker = SpriteSheet("art/pl_dia_"+speaker_sprites.lower()+".png").images_at(
-            [(0,0,600,800)], colourkey=(0,255,0))
+            [(0,0,800,800)], colourkey=(0,255,0))
         self.name = speaker_sprites
         self.emotion_id = 0
         self.image = self.speaker[self.emotion_id].convert()
