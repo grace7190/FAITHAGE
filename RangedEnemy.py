@@ -15,6 +15,7 @@ class RangedEnemy(Enemy):
              (800,0,400,300),
              (1200,0,400,300)],colourkey=(0,255,0))
         Enemy.__init__(self, x, idle, idle, attack)
+        self.damage = 3
         self.attack_time = 0
         self.time_till_attack = 100
         self.health = 85
