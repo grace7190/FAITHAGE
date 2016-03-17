@@ -31,6 +31,7 @@ clock = pygame.time.Clock()
 Levels = Levels()
 bg = pygame.image.load("art/bg_forest.jpg").convert()
 bg_dia_castle = pygame.image.load("art/bg_dia_castle.jpg").convert()
+main_menu = pygame.image.load("art/bg_start_screen.jpg").convert()
 ui_icons = pygame.image.load("art/ui_overlay.png").convert()
 ui_icons.set_colorkey((255,255,255))
 ui_icons_top = pygame.image.load("art/ui_overlay_top.png").convert()
@@ -65,20 +66,6 @@ enemy_Group = pygame.sprite.Group()
 m_enemy_List = []
 r_enemy_List = []
 
-# bob = MeleeEnemy(1650)
-# m_enemy_List.append(bob)
-# m_enemy_List.append(MeleeEnemy(850))
-# m_enemy_List.append(MeleeEnemy(3000))
-# m_enemy_List.append(MeleeEnemy(2000))
-
-# r_enemy_List.append(RangedEnemy(2300))
-# r_enemy_List.append(RangedEnemy(3000))
-# r_enemy_List.append(RangedEnemy(1600))
-# for en in m_enemy_List:
-#     enemy_Group.add(en)
-# for en in r_enemy_List:
-#     enemy_Group.add(en)
-
 # Set up Healthbars
 for char in char_Group:
     health_Group.add(char.healthbar)
@@ -89,7 +76,6 @@ for char in char_Group:
 level = 0
 chapter = 0
 wave = -1
-score = 0
 gold = 0
 moving = True
 background_x = 0
@@ -98,6 +84,9 @@ a_released = True
 s_released = True
 d_released = True
 title_time = 0
+# Start Menu
+show_start = True
+start_button = pygame.Rect((400,700),(450,150))
 # Speakers
 show_dialogue = True
 dialogue_next = True
@@ -137,25 +126,19 @@ def swap_emotion(char, emotion):
     return
 
 
-def find_triggered_skills(score, gold):
+def find_triggered_skills():
     for skill in S_skill_Group:
         if not skill.triggered and skill.check_clicked():
-            score += 500
-            gold += 3
             skill_Group.add(skill.activate_skill(enemy_Group))
     for skill in L_skill_Group:
         if not skill.triggered and skill.check_clicked():
-            score += 500
-            gold += 3
             skill_Group.add(skill.activate_skill(enemy_Group))
     for skill in C_skill_Group:
         if not skill.triggered and skill.check_clicked():
-            score += 500
-            gold += 3
             skill_Group.add(skill.activate_skill(enemy_Group))
 
 
-def activate_skill(skills, score, gold):
+def activate_skill(skills):
     max_x = 0
     current = None
     for s in skills:
@@ -163,17 +146,13 @@ def activate_skill(skills, score, gold):
             current = s
             max_x = s.rect.x
     if current:
-        score += 500
-        gold += 3
         skill_Group.add(current.activate_skill(enemy_Group))
         current.triggered = True
 
 
-def setup_level(level, wave):
-    global bg
-    # bg = pygame.image.load("art/bg_forest.jpg").convert()
-
-    # setup_enemies(melee)
+def menu_click():
+    if start_button.collidepoint(pygame.mouse.get_pos()):
+        return False
 
 
 # -------- Main Program Loop ---------
@@ -184,8 +163,12 @@ while not quit:
             quit = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed()[0]:
-                click_sound.play()
-                find_triggered_skills(score, gold)
+                if show_start:
+                    show_start = menu_click()
+                elif show_dialogue:
+                    dialogue_next = True
+                else:
+                    find_triggered_skills()
         elif event.type == pygame.KEYDOWN:
             if pygame.key.get_pressed()[pygame.K_SPACE]:
                 dialogue_next = True
@@ -193,15 +176,15 @@ while not quit:
                 quit = True
             if pygame.key.get_pressed()[pygame.K_a]:
                 if a_released:
-                    activate_skill(C_skill_Group, score, gold)
+                    activate_skill(C_skill_Group)
                     a_released = False
             if pygame.key.get_pressed()[pygame.K_s]:
                 if s_released:
-                    activate_skill(L_skill_Group, score, gold)
+                    activate_skill(L_skill_Group)
                     s_released = False
             if pygame.key.get_pressed()[pygame.K_d]:
                 if d_released:
-                    activate_skill(S_skill_Group, score, gold)
+                    activate_skill(S_skill_Group)
                     d_released = False
         elif event.type == pygame.KEYUP:
             if not pygame.key.get_pressed()[pygame.K_a]:
@@ -210,6 +193,13 @@ while not quit:
                 s_released = True
             if not pygame.key.get_pressed()[pygame.K_d]:
                 d_released = True
+
+    # START MENU
+    if show_start:
+        screen.blit(main_menu, (0,0))
+        pygame.display.flip()
+        clock.tick(60)
+        continue
 
     # DIALOGUE
     if show_dialogue:
@@ -257,10 +247,12 @@ while not quit:
     # Check dead Enemies
     for en in m_enemy_List:
         if en.health <= 0:
+            gold += 18
             en.die()
             m_enemy_List.remove(en)
     for en in r_enemy_List:
         if en.health <= 0:
+            gold += 18
             en.die()
             r_enemy_List.remove(en)
     if not (r_enemy_List or m_enemy_List):
@@ -293,7 +285,9 @@ while not quit:
     for en in r_enemy_List:
         if en.attacking and en.attack_time >= en.time_till_attack:
             en.attack_time = 0
-            [Shana, Cid, Luxon][randint(0,2)].health -= en.damage
+            target = [Shana, Cid, Luxon][randint(0,2)]
+            skill_Group.add(en.launch_skill(target))
+            # [Shana, Cid, Luxon][randint(0,2)].health -= en.damage
 
     # Check Hero damage given
     for en in m_enemy_List:
@@ -334,7 +328,8 @@ while not quit:
         for en in m_enemy_List:
             en.hitbox.move_ip(-2,0)
         for skill in skill_Group:
-            skill.rect.move_ip(-2,0)
+            if not isinstance(skill, Missile):
+                skill.rect.move_ip(-2,0)
     else:
         Cid.change_anim(Cid.idle_anim)
         Luxon.change_anim(Luxon.idle_anim)
@@ -346,11 +341,9 @@ while not quit:
         background_x -= 2
 
     # Setting up UI text
-    xp_text = pygame.font.SysFont("comicsansms", 32).\
-        render("XP: "+str(score), 1, (0,0,0))
-    gold_text = pygame.font.SysFont("comicsansms", 32).\
-        render("Gold: "+str(gold), 1, (255, 204, 0), (0, 0, 102))
-    title_text = pygame.font.SysFont("comicsansms", 50, True).\
+    gold_text = pygame.font.SysFont("resources/SourceSerifPro-Regular.otf", 42).\
+        render(str(gold)+" GOLD", 1, (0, 0, 0))
+    title_text = pygame.font.SysFont("resources/SourceSerifPro-Regular.otf", 50, True).\
         render("CHAPTER "+str(level+1)+"-"+str(chapter+1)+"  WAVE "+str(wave+1), 1, (0, 0, 0))
 
     if title_time > 0:
@@ -358,16 +351,15 @@ while not quit:
 
     # --- Drawing code
     screen.blit(bg, (background_x % -(bg.get_width()-screen.get_width()),0))
-    screen.blit(xp_text, (5, 10))
-    screen.blit(gold_text, (5, 50))
+    screen.blit(gold_text, (20, 20))
     if title_time > 0:
-        screen.blit(title_text, (600,50))
+        screen.blit(title_text, (750,50))
     screen.blit(ui_icons, (0,0))
 
 # #### draw hitbox
 #     for en in enemy_Group:
-#         hitbox = pygame.Surface((en.hitbox.width, en.hitbox.height))
-#         screen.blit(hitbox, (en.hitbox.x, en.hitbox.y))
+#     hitbox = pygame.Surface((en.hitbox.width, en.hitbox.height))
+#     screen.blit(hitbox, (900, en.hitbox.y))
 # ####
 
     # --- update Sprites
@@ -381,8 +373,8 @@ while not quit:
     S_skill_Group.draw(screen)
     L_skill_Group.draw(screen)
     C_skill_Group.draw(screen)
-    char_Group.draw(screen)
     enemy_Group.draw(screen)
+    char_Group.draw(screen)
     skill_Group.draw(screen)
     health_Group.draw(screen)
 

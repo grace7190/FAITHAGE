@@ -31,6 +31,8 @@ class MeleeEnemy(Enemy):
 
         Enemy.update(self)
 
+        self.attacking &= self.hitbox.x < 900
+
         if self.can_move:
             if self.current_anim != self.walk_anim:
                 self.current_anim = self.walk_anim
@@ -68,6 +70,7 @@ class Zombi(Enemy):
             self.health = 0
 
         Enemy.update(self)
+        self.attacking &= self.hitbox.x < 900
 
         if self.can_move:
             if self.current_anim != self.walk_anim:
@@ -77,3 +80,32 @@ class Zombi(Enemy):
 
         if self.attacking:
             self.attack_time += 1
+
+
+class MeleeEnemyR(MeleeEnemy):
+    def __init__(self, x):
+        MeleeEnemy.__init__(self, x)
+        self.idle_anim = SpriteSheet("art/en_melee_redminion_atk.png").images_at(
+            [(0,0,400,300)],colourkey=(0,255,0))
+        self.walk_anim = self.idle_anim
+        self.attack_anim = SpriteSheet("art/en_melee_redminion_atk.png").images_at(
+            [(0,0,400,300),
+             (400,0,400,300),
+             (800,0,400,300),
+             (1200,0,400,300)],colourkey=(0,255,0))
+        self.damage = 9
+
+
+class MeleeEnemyG(MeleeEnemy):
+    def __init__(self, x):
+        MeleeEnemy.__init__(self, x)
+        self.idle_anim = SpriteSheet("art/en_melee_greenminion_atk.png").images_at(
+            [(0,0,400,300)],colourkey=(0,255,0))
+        self.walk_anim = self.idle_anim
+        self.attack_anim = SpriteSheet("art/en_melee_greenminion_atk.png").images_at(
+            [(0,0,400,300),
+             (400,0,400,300),
+             (800,0,400,300),
+             (1200,0,400,300)],colourkey=(0,255,0))
+        self.health = 150
+        self.total_health = 150
