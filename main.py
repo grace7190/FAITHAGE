@@ -15,9 +15,12 @@ from Levels import *
 # Might not be the same for your monitor?
 ctypes.windll.user32.SetProcessDPIAware()
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,30)
+# pygame.mixer.pre_init(44100, -16, 2, 2048) # setup mixer to avoid sound lag
 
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode([1920,1080], pygame.FULLSCREEN)
+bgm = pygame.mixer.Sound("sound/bgm_dia.ogg")
 pygame.display.set_caption("#FAITHAGE")
 
 # Used to manage how fast the screen updates
@@ -214,6 +217,12 @@ while not quit:
             dialogue = dialogue_file.next().strip()
             if dialogue == "===":
                 show_dialogue = False
+            elif dialogue[0] == '_':
+                bg = pygame.image.load("art/bg_dia_{0}.jpg".format(dialogue[1:-1])).convert()
+            elif dialogue[0] == '*':
+                bgm.stop()
+                bgm = pygame.mixer.Sound("sound/{0}.ogg".format(dialogue[1:-1])) # load music
+                bgm.play()
             elif dialogue[0] == '[':
                 speakers = dialogue[1:-1].split(', ')
                 (left_speaker, right_speaker) = swap_speakers(speakers[0], speakers[1])
@@ -221,6 +230,7 @@ while not quit:
                 char_emotion = dialogue[1:-1].split(', ')
                 swap_emotion(char_emotion[0], char_emotion[1])
             else:
+                dialogue = dialogue.encode("iso-8859-1")
                 dialogue = dialogue.split(': ')
                 s = pygame.font.Font("resources/SourceSerifPro-Regular.otf", 28).\
                     render(dialogue[0], 1, (180,180,180))
@@ -228,7 +238,7 @@ while not quit:
                     render(dialogue[1], 1, (255,255,255))
                 dialogue_next = False
 
-        screen.blit(bg_dia_castle, (0,0))
+        screen.blit(bg, (0,0))
         screen.blit(s, (590,830))
         screen.blit(d, (590,885))
         speaker_Group.update()
