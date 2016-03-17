@@ -18,12 +18,13 @@ class Character(pygame.sprite.Sprite):
         self.current_anim = self.idle_anim
         self.rect = self.image.get_rect()
         self.sprite_id = 0
-        self.health = 100
+        self.health = 20
         self.total_health = 100
         self.healthbar = HealthBar(self, (20, 131, 7))
         self.hitbox = pygame.Rect(
             (x, FLOOR - self.image.get_height() + 20 + HITBOX_OFFSET),
             HITBOX)
+        self.dead = False
 
     def change_anim(self, anim):
         if anim != self.current_anim:
@@ -33,14 +34,24 @@ class Character(pygame.sprite.Sprite):
             self.rect = self.image.get_rect()
 
     def update(self):
-        self.sprite_id += 1
-        if self.sprite_id >= len(self.current_anim)*12:
-            self.sprite_id = 0
-        self.image = self.current_anim[(self.sprite_id)//12]
+        if self.dead:
+            self.image.set_alpha(self.image.get_alpha() - 10)
+            if self.image.get_alpha() <= 10:
+                self.kill()
+                self.healthbar.kill()
+        else:
+            self.sprite_id += 1
+            if self.sprite_id >= len(self.current_anim)*12:
+                self.sprite_id = 0
+            self.image = self.current_anim[(self.sprite_id)//12]
+            self.image.set_alpha(255)
 
-        self.rect.centerx = self.hitbox.centerx
-        self.rect.y = self.hitbox.y - HITBOX_OFFSET
+            self.rect.centerx = self.hitbox.centerx
+            self.rect.y = self.hitbox.y - HITBOX_OFFSET
 
-        if self.health < 0:
-            self.health = 0
-        self.healthbar.update()
+            if self.health < 0:
+                self.dead = True
+                self.health = 0
+            if self.health > 100:
+                self.health = 100
+            self.healthbar.update()

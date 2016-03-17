@@ -27,6 +27,9 @@ class Shana(Character):
         self.time_till_attack = 60
         self.damage = 20
 
+    def do_skill(self):
+        return None
+
     def update(self):
         Character.update(self)
         if self.attacking:
