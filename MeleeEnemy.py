@@ -31,6 +31,8 @@ class MeleeEnemy(Enemy):
 
         Enemy.update(self)
 
+        self.attacking &= self.hitbox.x < 900
+
         if self.can_move:
             if self.current_anim != self.walk_anim:
                 self.current_anim = self.walk_anim
@@ -68,6 +70,7 @@ class Zombi(Enemy):
             self.health = 0
 
         Enemy.update(self)
+        self.attacking &= self.hitbox.x < 900
 
         if self.can_move:
             if self.current_anim != self.walk_anim:

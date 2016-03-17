@@ -89,6 +89,6 @@ class Enemy(pygame.sprite.Sprite):
         if self.sprite_id >= len(self.current_anim)*12:
             self.sprite_id = 0
         self.image = self.current_anim[(self.sprite_id)//12]
-        self.attacking = not (self.can_move or self.stun > 0 or self.hitbox.x > 900)
+        self.attacking = not (self.can_move or self.stun > 0)
 
 

@@ -29,7 +29,7 @@ class RangedEnemy(Enemy):
         self.healthbar.kill()
 
     def launch_skill(self, target):
-        return Missile(self.rect.x, target)
+        return Missile(target)
 
     def update(self):
         if self.health < 0:
@@ -72,7 +72,7 @@ class Skelli(Enemy):
         self.healthbar.kill()
 
     def launch_skill(self, target):
-        return Missile(self.rect.x, target)
+        return Bone(self.rect.x, target)
 
     def update(self):
         if self.health < 0:
@@ -91,7 +91,7 @@ class Skelli(Enemy):
             self.attack_time += 1
 
 
-class Missile(pygame.sprite.Sprite):
+class Bone(pygame.sprite.Sprite):
     def __init__(self, start_x, target):
         pygame.sprite.Sprite.__init__(self)
         self.sprites_array = SpriteSheet("art/fx_bone.png").images_at(
@@ -116,3 +116,32 @@ class Missile(pygame.sprite.Sprite):
         self.image = self.sprites_array[((self.sprite_id)//6)%len(self.sprites_array)]
         self.rect.move_ip(-15, 0)
         self.sprite_id += 1
+
+
+class Missile(pygame.sprite.Sprite):
+    def __init__(self, target):
+        pygame.sprite.Sprite.__init__(self)
+        self.sprites_array = SpriteSheet("art/fx_minionstrike.png").images_at(
+                [(0,0,100,100),
+                (100,0,100,100),
+                (200,0,100,100),
+                (300,0,100,100),
+                (400,0,100,100)],colourkey=(0,255,0))
+        self.sprite_id = 0
+        self.image = self.sprites_array[0]
+        self.rect = self.image.get_rect()
+        self.rect.centerx = target.hitbox.centerx
+        self.rect.y = -200
+        self.target = target
+
+    def update(self):
+        if self.rect.y < 400:
+            self.rect.move_ip(0, 25)
+        else:
+            self.sprite_id += 1
+            if self.sprite_id == 2:
+                self.target.health -= 5
+            if self.sprite_id >= len(self.sprites_array)*6:
+                self.kill()
+            else:
+                self.image = self.sprites_array[(self.sprite_id)//6]
