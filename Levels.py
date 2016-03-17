@@ -40,13 +40,22 @@ class Levels():
         melee = self.levels[l][c].get('melee')[w]
         zombi = self.levels[l][c].get('zombi')[w]
         ranged = self.levels[l][c].get('ranged')[w]
+        skelli = self.levels[l][c].get('skell')[w]
+        meleer = self.levels[l][c].get('meleer')[w]
+        meleeg = self.levels[l][c].get('meleeg')[w]
         for i in range(melee):
             m_enemy_List.append(MeleeEnemy(2000+150*i))
         for i in range(zombi):
             m_enemy_List.append(Zombi(2000+150*(i+melee)))
+        for i in range(meleer):
+            m_enemy_List.append(MeleeEnemyR(2000+150*(i+melee+zombi)))
+        for i in range(meleeg):
+            m_enemy_List.append(MeleeEnemyG(2000+150*(i+melee+zombi+meleer)))
 
         for i in range(ranged):
             r_enemy_List.append(RangedEnemy(2100+150*i))
+        for i in range(skelli):
+            r_enemy_List.append(Skelli(2100+150*(i+ranged)))
 
         for en in m_enemy_List:
             enemy_Group.add(en)

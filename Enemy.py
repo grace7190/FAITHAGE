@@ -57,6 +57,26 @@ class Enemy(pygame.sprite.Sprite):
         else:
             self.change_anim(self.attack_anim)
 
+    def check_can_move_ranged(self, limit, unit_list):
+        if self.has_frontline:
+            if self.hitbox.colliderect(limit):
+                self.can_move = False
+                self.change_anim(self.attack_anim)
+                return
+            hitbox_list = []
+            for i in unit_list:
+                hitbox_list.append(i.hitbox)
+            hitbox_list.remove(self.hitbox)
+            if self.hitbox.collidelist(hitbox_list) == -1:
+                self.change_anim(self.walk_anim)
+                self.can_move = True
+            else:
+                self.can_move = False
+                self.change_anim(self.attack_anim)
+        else:
+            self.can_move = False
+            self.change_anim(self.attack_anim)
+
     def update(self):
         if self.stun > 0:
             self.stun -= 1
@@ -69,6 +89,6 @@ class Enemy(pygame.sprite.Sprite):
         if self.sprite_id >= len(self.current_anim)*12:
             self.sprite_id = 0
         self.image = self.current_anim[(self.sprite_id)//12]
-        self.attacking = not (self.can_move or self.stun > 0)
+        self.attacking = not (self.can_move or self.stun > 0 or self.hitbox.x > 900)
 
 

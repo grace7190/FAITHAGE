@@ -293,7 +293,9 @@ while not quit:
     for en in r_enemy_List:
         if en.attacking and en.attack_time >= en.time_till_attack:
             en.attack_time = 0
-            [Shana, Cid, Luxon][randint(0,2)].health -= en.damage
+            target = [Shana, Cid, Luxon][randint(0,2)]
+            skill_Group.add(en.launch_skill(target))
+            # [Shana, Cid, Luxon][randint(0,2)].health -= en.damage
 
     # Check Hero damage given
     for en in m_enemy_List:
@@ -366,8 +368,8 @@ while not quit:
 
 # #### draw hitbox
 #     for en in enemy_Group:
-#         hitbox = pygame.Surface((en.hitbox.width, en.hitbox.height))
-#         screen.blit(hitbox, (en.hitbox.x, en.hitbox.y))
+#     hitbox = pygame.Surface((en.hitbox.width, en.hitbox.height))
+#     screen.blit(hitbox, (900, en.hitbox.y))
 # ####
 
     # --- update Sprites
@@ -381,8 +383,8 @@ while not quit:
     S_skill_Group.draw(screen)
     L_skill_Group.draw(screen)
     C_skill_Group.draw(screen)
-    char_Group.draw(screen)
     enemy_Group.draw(screen)
+    char_Group.draw(screen)
     skill_Group.draw(screen)
     health_Group.draw(screen)
 
