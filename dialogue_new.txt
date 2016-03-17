@@ -360,20 +360,14 @@ Nox: I had hoped that, were you as strong as I feared, you would be open to reas
 Luxon: I said this before to Stella, and I’ll say it again now - We do not negotiate-
 Cid: Shut up!
 Shana: No one asked you!
-Nox: How Amusing.
-	Before the next world takes me, I would like to tell you a little story.
-	Back in my day, when I was an adventurer like you, I discovered the power over the dead, and taught it to the poorest, the neediest, who became self-sustaining with an army of workers that needed neither food nor sleep.
-	Of course, the lords and ladies did not like that. We were vilified, chased out into the deepest corners of the realm, where we practiced in secret, undisturbed for decades, until your king sought to expand his territory. 
-I taught my students, now spanning many generations, to fight for their families and land. But of course this did no favours for our image as “bloody evil necromancers”.
-	The stories about us grew more outrageous. I became a frequent target of would-be heroes who would come to this very castle to challenge me. Some I managed to convince to join our cause. Others, I admit, joined our cause against their will when they were killed in self-defense. 
-	Many good men and women have died at the hands of so-called heroes like you. It is too late for me to stop you, but I would implore that you reconsider, before hunting down my brethren. 
+Nox: How Amusing. Before the next world takes me, I would like to tell you a little story.
+Nox: Back in my day, when I was an adventurer like you, I discovered the power over the dead, and taught it to the poorest, the neediest, who became self-sustaining with an army of workers that needed neither food nor sleep.
+Nox: Of course, the lords and ladies did not like that. We were vilified, chased out into the deepest corners of the realm, where we practiced in secret, undisturbed for decades, until your king sought to expand his territory. 
+Nox: I taught my students, now spanning many generations, to fight for their families and land. But of course this did no favours for our image as “bloody evil necromancers”.
+Nox: The stories about us grew more outrageous. I became a frequent target of would-be heroes who would come to this very castle to challenge me. Some I managed to convince to join our cause. Others, I admit, joined our cause against their will when they were killed in self-defense. 
+Nox: Many good men and women have died at the hands of so-called heroes like you. It is too late for me to stop you, but I would implore that you reconsider, before hunting down my brethren. 
 Cid: What you have said… Given what I know of the king, it doesn’t surprise me.
 Luxon: I can’t believe my father would do that!
 Nox: If you choose to join our cause, I will give you my knowledge. 
-	If not, I ask only that you spare the innocent
-	What will you choose?
-
-[Side with Nox] 
-Nox: Thank you… your faith shall be rewarded.
-[Side with the King]
-Nox: I see. It would seem I have failed. Farewell. 
+Nox: If not, I ask only that you spare the innocent
+Nox: What will you choose?
