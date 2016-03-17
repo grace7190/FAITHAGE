@@ -1,14 +1,437 @@
-_castle_
-*music* 
-[Shana, Luxon]
-SHANA: hey bb
-LUXON: what is the up?
-LUXON: isnt this dialogue sexy af?
+_castle_ 
+*bgm_nox_theme*
+[StellaNecro,  NoxNecro]
+Underling: Urgent news from the gates.
+Arch Lich: Speak.
+Underling: The latest groups of adventurers - they’re upon us. These are stronger than ever before, I’m afraid. They’re already through the outer gates and they’re about to-
+Arch Lich: Hush, young one... I find your lack of Faith disturbing. 
+Underling: My apologies.  
+Arch Lich: Come, we will show them the error of their ways. 
+===
+_grass_
+*bgm_dia_happy*
+[Luxon, Cid]
+Luxon: *huff huff* are we there yet?
+Cid: No. Shut up, and keep walking. 
 [Shana, Cid]
-CID: hey guys i wann be involved
-SHANA: lol nerd
-CID: !
+Shana: Aw Cid, don’t be such an old grouch. 
+Cid: I’m younger than you. Why did we have to bring him along, anyway? He doesn’t even have any fighting skills!
+[Luxon, Cid]
+Luxon: Do too! I can… uh…
+[Shana, Cid]
+Shana: He can dazzle stuff. I seen it with my own eyes. 
+Cid: Frankly, my dear, I don’t give a damn. If he’s useless, we’re ditching him. Like we’d agreed upon.
+Shana: I know, I know. Luxon, you better step it up. 
+[Luxon, Cid]
+Luxon: :'( Fine. You’ll see. You’ll both see!
+Cid: Let’s just get moving. 
 ===
-{Cid, 1}
-CID: that guy died
+_house_
+*bgm_dia* 
+[Cid, Landlord]
+Landlord: Ah! There you are. I’ve been waiting all day for you. Gosh, I’ve never done this quest giving thing before. But aren’t you guys a little… puny for heroes?
+Cid: …
+Landlord: HAHA WELL never mind, I suppose you can give it a try. If you fail though, I’m not liable. In fact, why don’t you sign this form over here. 
+Cid: …
+Landlord: Or… not. Well anyway, you’ve heard of the reign of the evil Arch Lich, terrorizing the kingdoms, et cetera. 
+Cid: Yes. I wasn’t aware the Lich’s domain has extended this far.
+Landlord: Well it has. And you’d better do something about it!
+[Luxon, Landlord]
+Luxon: Just tell us what needs doing, and we’ll do it. 
+Landlord: I need you to eliminate all the pesky necromancers with their fancy minions and skeletons. And reclaim my lands from rebellious peasants who have turned to the dark side. 
+[Cid, Landlord]
+Cid: Oh of course. Blame the peasants. 
+Landlord: Naturally. Glad you understand. Well, chop chop. My land isn’t going to reclaim itself. 
 ===
+_grass_
+*bgm_dia*
+[Luxon, Necro]
+Luxon: Aha! A evil necromancer!
+[Luxon, Necro]
+Shana: Surrender now, or prepare to fight!
+Peasant: !
+Luxon: Hands in the air! I said-
+[Luxon, Blank]
+Luxon: Aw… he ran away. 
+[Luxon, Cid]
+Cid: Probably because you scared him, you idiot. But at least we got rid of all his minions. We’d best report back.
+Luxon: Yeah. Maybe we’ll get some sweet loot! Perhaps I’ll even be able to claim a maiden’s -
+Cid: No. 
+Luxon: :( I was going to say hand in marriage… 
+===
+_house_
+*bgm_dia_happy* 
+[Cid, Landlord]
+Cid: Well, we’re back. We managed to take care of the minions and skeletons plaguing your fields.
+Landlord: Good good good. And what of the necromancers?
+Cid: Well…
+[Shana, Landlord]
+Shana: Luxon scared them away. 
+Luxon: Hey!
+[Luxon, Landlord]
+Landlord: Hrm. Well, no matter. Presumably they wouldn’t dare come back. You did well, young heroes. 
+Luxon: So uh…
+Landlord: Yes?
+Luxon: Do we get a reward or something…?
+Landlord: Eh… well… you know, with all the skeletons terrorizing the land... There’s been few taxes to collect, you see, and, well…
+[Shana, Landlord]
+Shana: Is that a no?!
+[Luxon, Landlord] 
+Luxon: Don’t you know who I am?!
+Landlord: Actually, no…
+Luxon: The name’s Bond. Luxon Bond. 
+[Shana, Landlord]
+Shana: …
+[Cid, Landlord]
+Cid: …
+Landlord: … 
+Cid: That’s definitely not even your real name.
+[Cid, Luxon]
+Luxon: It is too you hater!
+Cid: … I have no idea what a ‘hater’ is, but let’s not discuss that now. Sir Landlord, we have provided you with great service, and we expect to be compensated for our time. 
+[Cid, Landlord]
+Landlord: Fine. Have some of this. (sprite w/ something derp looking) 
+Cid: What’s that? Looks like Monopoly money... 
+Landlord: The stuff that dreams are made of. Don’t you uncultured peasants know anything?
+Cid: We only take payment in gold. VISA If you really must.
+Landlord: Fine. (He hands the party 3 gold, one for each of you.)
+Cid: That’s it? 
+Landlord: Yup! But if you talk to my cousin in the next town over, I’m sure he’ll be happy to give you something on my behalf. Here, let me give you a letter to him. (Received Letter to Landlord’s Rich Merchant Cousin)
+Cid: Fine. That’ll do. 
+[Cid, Luxon]
+Luxon: How far is it? I can’t walk any further today.
+Cid: Can’t? Or won’t?
+Luxon: A little of column A, a little of column B. 
+Cid: Let’s get going. 
+[Cid, Shana]
+Shana: I think this is the beginning of a beautiful friendship. 
+Cid: Over my dead body it is. 
+===
+Dialogue scene, backdrop is a town at dusk
+[Players   ]
+Luxon: I see dead people
+Cid: Should we tell him?
+Shana: Luxon, I think… I think that’s just a homeless man…
+Luxon: Oh.
+Cid: Unbelievable. 
+Cid moves to right side
+Cid: It’s pretty late. Maybe we’d better rest, and find the merchant guy tomorrow.
+Shana: Sounds good. 
+
+Player sprites move into an inn. Back to dialogue scene because I need to stuff more quotes in
+[Shana   Cid] 
+Shana: I can’t believe this inn had a password. The hell?
+Cid: I can’t believe they’d pick a password as insecure as Rosebud. 
+	It doesn’t even have 8 characters or any numbers!
+Shana: Truly outrageous, I’m sure. Hey, what’s Luxon doing?
+[Luxon   Bartender/Stella]
+Luxon: A martini. Shaken, not stirred.
+Bartender: Sir, this is a medieval tavern. What in the Lord’s name is a marred teeny?
+Luxon: Eh, never mind. Maybe a Stella?
+Stella: Did someone say my name?
+Luxon: You talking to me?
+Stella: Name’s Stella. How lovely to make your acquaintance. 
+Luxon: Hey, Stella! 
+Stella: Hello, gorgeous. 
+Luxon: What’s a place like you doing in a girl like this? What a dump, amirite? 
+Bartender: I’m right here, you know.
+Stella: I work just up the street. 
+Why don’t you come up sometime and see me?
+Luxon: How about  now?
+Stella: I'm not working now
+But there's no reason you can't come visit
+Luxon: sounds good!
+Luxon and Stella fade
+
+[Shana   Cid]
+Cid:  hey where Luxon go? 
+Shana: I don't know I thought you were keeping an eye on him
+Cid: Let's go find him before he gets us all into trouble again
+Shana and Cid fade
+
+[Luxon   Stella] in a dim room that im too lazy to draw
+Stella: So I hear you helped recover some fields today 
+over by the village with the evil necromancers
+Luxon: How do you know about that?
+Stella: Word travels fast. 
+Luxon: Oh, wait a minute, wait a minute. You ain't heard nothin' yet!
+Stella: Oh?
+Luxon: I gotta tell you about how we destroyed them! 
+They ran away screaming from us like cowards
+Stella: Surely you can't be serious.
+Luxon: I am serious...and don't call me Shirley.
+	But you can call me Bond, if you insist. 
+Stella: ...Right… 
+But you didn’t kill them, right?
+Luxon: Doesn’t matter. No way they’ll go back to doing evil things now.
+Stella: Got it. It sure was brave of you.
+Luxon: I know! Well, nobody’s perfect, but I-
+Stella: Hey aren’t those your friends over there?
+Luxon sprite turns around.
+Luxon: Where?
+Stella disappears
+Luxon: Huh? Where’d she go?
+[Shana/Cid   Luxon]
+Shana: Geez Luxon, we’ve been looking all over for you.
+Cid: I told her to leave you to your own devices, but she insisted.
+Luxon: Thanks guys, but I was actually with this girl…
+And I think you guys might’ve just scared her away.
+Cid: WE scared her away? Ugh, I’m going back to the inn. 
+Shana: I’m sure she just… needed to powder her nose. 
+Luxon: Yeah, that seems likely.
+	Well, it’s been a long day. Let’s turn in for the night.
+Shana: Yeah, let’s head back.
+Faaade
+
+[Cid   Shana] inn in the morning
+Shana: *Yawn* Guess we ought to head out.
+Cid: Yeah. Our reward isn’t going to collect itself. 
+
+Sprites move into a house with a fat merchant
+Cid: Hello, we’ve come to collect a reward. 
+Merchant: Hm? Who sent you here? What reward?
+Cid: Your cousin, the Landlord?
+Merchant: The… Landlord? 
+Cid: Here, I have a letter from him.
+Merchant: Ah. 
+	…
+	Well, if it isn’t my least favourite cousin. 
+Cid: Just my luck. You going to give us anything or not?
+Merchant: No way! That man owes me so much money…
+	But you know, I could give you something if 
+you’re also willing to do some work for me. 
+Cid: I guess we’re not doing anything else.
+	You guys cool with that?
+Shana: Yep.
+Luxon: Do we get to fight more bad guys?
+Merchant: Why yes. Some no-good Lich-worshippers recently
+	stole something of mine. And I want it back! 
+Cid: Really. What did they steal?
+Merchant: Everything they have on them, probably!
+	I want all of it!
+Cid: Could you, perhaps, be a teeny bit more specific?
+Merchant: Don’t test me, young man. 
+A census taker once tried to test me. 
+Cid: What?
+Merchant: Do as I say, and you can have all the riches you desire.
+Cid: I really don’t think-
+Luxon: Mr. Merchant, we accept your quest.
+Cid: Luxon, what if-
+Luxon: Cid, with all due respect,
+	Greed, for lack of a better word, is good.
+Shana: I’m with Luxon on this one. I need me some new armour. 
+Cid: It appears I’ve been outvoted. Well, off we go then. 
+Luxon: Yaaay!
+Cid: We can still ditch you, you know. 
+Fade
+
+[Necro!Stella   Lich!Nox]
+Nox: I sense a great disturbance in the Faith
+	As if a million undead suddenly turned over in their figurative graves
+Stella: Yes Sir, I know. I’ll take care of it. 
+I’m gonna make him an offer he can’t refuse.
+Nox: Do not disappoint me. May the Faith be with you. 
+Stella disappears
+	I have a bad feeling about this…
+
+Players go into a forest, encounters Stella. 
+[Luxon   Stella]
+Luxon: Stella! What are you doing here?
+Stella: I’m so glad I caught up to you guys. 
+	I wanted to warn you of the danger ahead.
+Luxon: We know, that’s why we’re going. 
+	Stand aside so we can save the kingdom!
+Stella: I’m warning you, it’s not something you want to go up against.
+Shana: We already killed a horde of undead, how bad can it be?
+Luxon: Yeah! 
+Stella: Look, I just, you can’t go, okay? Besides, Luxon,
+	Wouldn’t you rather stay in the town and hang out with me ;) ?
+Cid: How did you vocalize that winky face?!
+Luxon: Stella, I appreciate the offer, but we really-
+Stella: Luxon, I just have to tell you - I love you.
+Luxon: What? Really?
+Stella: Yes! Now please stay here and have my babies. 
+Luxon: Wow!
+	Today, I consider myself the luckiest man on the face of the Earth.
+Cid: You can do that later.
+Luxon: B-but-
+Stella: I want to do it now!
+Shana: Come on, Luxon, we have to get going. 
+	You can’t ditch us after all we’ve been through together. 
+Luxon: Sorry Stella, duty calls. I'll be back!
+Stella: Wait-
+Luxon fades to the right
+
+Player sprites move into (the same) forest, but without Stella
+Defeat upgraded minions and 1 zombie (2-1) zombies (2-2) and zombies + skeletons (2-3) 
+
+[Luxon   Cid] 
+Luxon: Phewf. That went well.
+Cid: No thanks to you.
+Shana: Hey, knock that off. Luxon did his part. 
+Cid: Whatever, let’s just collect what we came here for.
+Luxon: Hey, what’s this?
+	…
+	Whoa, there’s so much stuff here?
+Cid: How much can we carry? Does the merchant want everything?!
+Luxon: Let’s just take the most expensive stuff. 
+Cid: Good thing one of us came prepared. 
+	Let’s just stuff it all in my conveniently large inventory. 
+Luxon: Compensating for something?
+Shana: You too, Luxon. A man’s manhood is no laughing matter!
+Cid: … Whatever, just get to work so we can leave. 
+
+Player sprites exit forest
+
+[Necro!Stella   Necro]
+Stella: I thought I told you to run. What happened?
+Necro: We had… we had to defend our homes! 
+Stella: I also recall telling you living in the forest was not a great idea.
+	Well, what’s done is done. At least I arrived in time to save you.
+Necro: Thank you, milady. 
+Stella: Just keep an eye out in the future, alright?
+	You all lucked out this time, but next time…
+Necro: We will. 
+Stella: And move out of the damned forest.
+	Until you learn to fight, stay away from others, alright?
+Necro: Yes milady. 
+
+End of chapter 2!!!1!
+
+Chapter 3: Players’ bravery is recognized by the king, who order them to eradicate the Arch Lich and all believers of the dark faith from the kingdom. Party is once again urged by Nox’s spirit to turn back. Disappears in 1 hit this time. Players march on to fight upgraded skeletons, vampires and defeat the BBEGG. Boss fight vs. Arch Lich
+
+Inside merchant’s house
+[Players   King] 
+Shana: Glad we made it back alright.
+Cid: Yeah. Hey, where’s the merchant?
+King: Oh, thank goodness, you found my foolish son.
+Cid: T-the king! Your Majesty. m(＿＿)m
+...Wait. Son?
+Luxon: Daaad! You’re embarrassing me again!
+King: Well. Maybe I wouldn’t have to be here if you’d simply
+	do as you’re told, like your siblings. 
+	Your friends, however… seem to be useful people.
+Shana: Who, us?
+King: I have heard tales of your bravery in battling the undead.
+	As you know, the undead have been plaguing the kingdom for
+	years, but only now have they become bold enough to be a nuisance.
+King: I would appreciate it if you were able to end this plague
+	once and for all. 
+	And if you don’t mind, take my useless son with you.
+Cid: I mind. A little.
+Shana: Of course, your majesty. 
+Luxon: Yaaay! 
+King: They seem to be most concentrated in the hills to the east.
+	I’ve heard rumors that their deity, the Arch Lich, was also last seen in that area, 
+though it’s been a long time since that name has been mentioned. 
+	Do not disappoint me.
+King disappears
+Cid: Wait, we never got paid >:(
+	Show me the money!
+Shana: We don’t need no payment; we’re heroes!
+Cid: Let’s see you try to buy food with ‘hero cred’.
+Luxon: It’s ok, you might as well know that my monthly allowance
+	Is in excess of the cost of one party hat. 
+Cid: You can buy party hats with your monthly allowance?!
+	What the actual f-
+Shana: I suppose that’s only expected for a prince. 
+Luxon: Yeah guys, don’t worry about that. 
+I’m sure my father will also reward you handsomely.
+Cid: He better. We’d best get moving. 
+	Wouldn’t want to keep His Majesty waiting, after all.
+Shana: As God is my witness, I'll never be hungry again!
+Players fade
+
+Player sprites enter hills
+Upgraded green minions show up with some of every monster (3-1) then boss fight vs. stella (3-2)
+
+(after defeat vampires)
+[Luxon   Stella]
+Necro!Stella: You’ve made it this far, but you shall go no further
+Luxon: Eek! A necromancer!
+Stella: *sigh*
+Luxon: Stella?!
+Stella: Not sure if my disguise was that good or you are just that dumb.
+	But yes, it is I. 
+Cid: Your interest in Luxon suddenly makes a lot more sense.
+Stella: Yes… well… I’m sorry I deceived you, but…
+	You don’t know what you’re doing. Please, just leave us alone.
+Cid: And why should we?
+Luxon: Yeah! My dad says you’re terrorists!
+Stella: Terrorists?! 
+Luxon: We do not negotiate with terrorists!
+Stella: ...very well, it appears you cannot be reasoned with.
+	I will defend the Faith until my last breath. 
+(boss fight here)
+Stella: I’m… sorry… Nox… I’ve failed you.
+Luxon: Ha! Take that!
+Cid: Don’t gloat. It’s unseemingly. 
+Shana: I feel kinda bad for her. 
+Cid: … I have a feeling there was more to her than we know.
+	Fortunately, Luxon here cut her off before she could tell us anything.
+	Thanks a lot.
+Luxon: You’re welcome! 
+Cid:  (－‸ლ)
+Shana: Hey guys, there’s a castle just up ahead. 
+	It’s emanating dark waves. Think that’s where we need to go?
+Cid: Dark waves? Really? 
+Luxon: Aha! Their leader must be up ahead. 
+	Arch Lich, here we come! 
+
+Ending (3-3): 
+
+Fight vs. Arch Lich, who throws weak spells at the party and dies in 1 hit, after defeat reveals herself to be a hot babe (nice!). Delivers an awesome dying speech before asking the players to kill her. <choice leads to different endings> Whatever the choice, Cid will end up siding with Arch Lich. 
+
+Player sprites enter dark room
+
+Cid: This castle has suspiciously empty. What if it’s a trap?
+[Arch Lich appears]
+Arch Lich: Well. At least one of you has some brains. 
+Luxon: Eep! It’s the Arch Lich! 
+Cid: Stay alert!
+Arch Lich: I was kidding. I already sent everyone away.
+	I will face you alone.
+Cid: Your reign of terror ends mere?
+Arch Lich: MY reign of terror? How… interesting. 
+Cid: What else would you call it? 
+Arch Lich: I’d tell you, but you wouldn’t believe me.
+Cid: Try me.
+Luxon: Enough talking! 
+Cid: But I wanted to hear her evil monologue :(
+Arch Lich: As I wanted to give it. But alas, it seems we must move on.
+	Surrender now, or prepare to fight!
+
+The most anticlimactic battle of all time ensues, because she dies in 2 hits
+
+[Players   Nox]
+Shana: What… just happened?
+Luxon: Did… did the Arch Lich die?
+Cid: I’m not sure…
+Nox appears
+Nox: Looks like I’m a lot weaker than I thought. 
+Luxon: Oh my gosh, a hot babe! 
+Nox: ...
+Cid: What’s going on? What is the meaning of this?
+Nox: I’m afraid your trip was a waste. I was nearing the end of my life even before your untimely appearance. You merely hastened it. I expect I have, oh, about a minute or two left. I’m hanging on through sheer force of will. 
+Cid: Why fight us anyway? I don’t understand!
+Nox: I had hoped that, were you as strong as I feared, you would be open to reason. 
+Luxon: I said this before to Stella, and I’ll say it again now - We do not negotiate-
+Cid: Shut up!
+Shana: No one asked you!
+Nox: How Amusing.
+	Before the next world takes me, I would like to tell you a little story.
+	Back in my day, when I was an adventurer like you, I discovered the power over the dead, and taught it to the poorest, the neediest, who became self-sustaining with an army of workers that needed neither food nor sleep.
+	Of course, the lords and ladies did not like that. We were vilified, chased out into the deepest corners of the realm, where we practiced in secret, undisturbed for decades, until your king sought to expand his territory. 
+I taught my students, now spanning many generations, to fight for their families and land. But of course this did no favours for our image as “bloody evil necromancers”.
+	The stories about us grew more outrageous. I became a frequent target of would-be heroes who would come to this very castle to challenge me. Some I managed to convince to join our cause. Others, I admit, joined our cause against their will when they were killed in self-defense. 
+	Many good men and women have died at the hands of so-called heroes like you. It is too late for me to stop you, but I would implore that you reconsider, before hunting down my brethren. 
+Cid: What you have said… Given what I know of the king, it doesn’t surprise me.
+Luxon: I can’t believe my father would do that!
+Nox: If you choose to join our cause, I will give you my knowledge. 
+	If not, I ask only that you spare the innocent
+	What will you choose?
+
+[Side with Nox] 
+Nox: Thank you… your faith shall be rewarded.
+[Side with the King]
+Nox: I see. It would seem I have failed. Farewell. 
