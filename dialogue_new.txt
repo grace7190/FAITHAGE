@@ -393,21 +393,47 @@ Luxon: Oh my gosh, a hot babe!
 Nox: ...
 [Cid, Nox]
 Cid: ...What's going on? What is the meaning of this?
-Nox: I'm afraid your trip was a waste. I was nearing the end of my life even before your untimely appearance. You merely hastened it. I expect I have, oh, about a minute or two left. I'm hanging on through sheer force of will. 
+Nox: I'm afraid your trip was a waste. 
+Nox: I was nearing the end of my life even before your untimely appearance. 
+Nox: You merely hastened it. I expect I have, oh, about a minute or two left. 
+Nox: I'm hanging on by a thread through sheer force of will. 
 Cid: Why fight us anyway? I don't understand!
-Nox: I had hoped that, were you as strong as I feared, you would be open to reason. 
+Nox: I had hoped that, were you as strong as I feared, 
+Nox: you would be open to reason. 
 [Luxon, Nox]
-Luxon: I said this before to Stella, and I'll say it again now - We do not negotiate-
+Luxon: I said this before to Stella, and I'll say it again now
+Luxon: We do NOT negotiate-
+[Cid, Nox]
 Cid: Shut up!
-Shana: No one asked you!
-Nox: How Amusing. Before the next world takes me, I would like to tell you a little story.
-Nox: Back in my day, when I was an adventurer like you, I discovered the power over the dead, and taught it to the poorest, the neediest, who became self-sustaining with an army of workers that needed neither food nor sleep.
-Nox: Of course, the lords and ladies did not like that. We were vilified, chased out into the deepest corners of the realm, where we practiced in secret, undisturbed for decades, until your king sought to expand his territory. 
-Nox: I taught my students, now spanning many generations, to fight for their families and land. But of course this did no favours for our image as “bloody evil necromancers”.
-Nox: The stories about us grew more outrageous. I became a frequent target of would-be heroes who would come to this very castle to challenge me. Some I managed to convince to join our cause. Others, I admit, joined our cause against their will when they were killed in self-defense. 
-Nox: Many good men and women have died at the hands of so-called heroes like you. It is too late for me to stop you, but I would implore that you reconsider, before hunting down my brethren. 
-Cid: What you have said... Given what I know of the king, it doesn't surprise me.
+[Shana, Nox]
+Shana: Luxon, for once in your life!
+[Cid, Nox]
+Nox: How Amusing. Before the next world takes me, 
+Nox: I would like to tell you a little story.
+Nox: Back in my day, when I was an adventurer like you, 
+Nox: I discovered the power over the dead, and taught it to 
+Nox: the poorest, the neediest, who became self-sustaining with 
+Nox: an army of workers that needed neither food nor sleep.
+Nox: Of course, the lords and ladies did not like that. 
+Nox: We were vilified, chased out into the deepest corners of the realm, 
+Nox: where we practiced in secret, undisturbed for decades, 
+Nox: until your king sought to expand his territory. 
+Nox: I taught my students, now spanning many generations, 
+Nox: to fight for their families and land. But of course this 
+Nox: did no favours for our image as "bloody evil necromancers".
+Nox: The stories about us grew more outrageous. I became a 
+Nox: frequent target of would-be heroes who would come to 
+Nox: this very castle to challenge me. 
+Nox: Some I managed to convince to join our cause. 
+Nox: Others, I admit, joined our cause against their will. As undead. 
+Nox: Many good men and women have died at the hands of so-called 
+Nox: heroes like you. It is too late for me to stop you, 
+Nox: but I would implore that you reconsider, before hunting down my brethren. 
+Cid: What you have said... 
+Cid: Given what I know of the king, it doesn't surprise me.
+[Luxon, Nox]
 Luxon: I can't believe my father would do that!
-Nox: If you choose to join our cause, I will give you my knowledge. 
+Nox: If you choose to join our cause, 
+Nox: I will give you my knowledge. 
 Nox: If not, I ask only that you spare the innocent
 Nox: What will you choose?

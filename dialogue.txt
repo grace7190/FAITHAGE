@@ -1,21 +1,59 @@
 _castle_
 *bgm_nox_theme*
+[Shana, Blank]
+Shana: What... just happened?
+[Luxon, Blank]
+Luxon: Did... did the Arch Lich die?
 [Cid, Blank]
-Cid: This castle has suspiciously empty. What if it's a trap?
-[Cid, NoxNecro]
-Arch Lich: Well. At least one of you has some brains. 
-[Luxon, NoxNecro]
-Luxon: Eep! It's the Arch Lich! 
-[Cid, NoxNecro]
-Cid: Stay alert!
-Arch Lich: I was kidding. I already sent everyone away. I will face you alone.
-Cid: Your reign of terror ends mere?
-Arch Lich: MY reign of terror? How... interesting. 
-Cid: What else would you call it? 
-Arch Lich: I'd tell you, but you wouldn't believe me.
-Cid: Try me.
-[Luxon, NoxNecro]
-Luxon: Enough talking! 
-[Cid, NoxNecro]
-Cid: But I wanted to hear her evil monologue :(
-Arch Lich: As I wanted to give it. But alas, it seems we must move on.Surrender now, or prepare to fight!
+Cid: I'm not sure...
+[Cid, Nox]
+Nox: Surprised? Ha! Looks like I'm a lot weaker than I thought. 
+[Luxon, Nox]
+Luxon: Oh my gosh, a hot babe! 
+Nox: ...
+[Cid, Nox]
+Cid: ...What's going on? What is the meaning of this?
+Nox: I'm afraid your trip was a waste. 
+Nox: I was nearing the end of my life even before your untimely appearance. 
+Nox: You merely hastened it. I expect I have, oh, about a minute or two left. 
+Nox: I'm hanging on by a thread through sheer force of will. 
+Cid: Why fight us anyway? I don't understand!
+Nox: I had hoped that, were you as strong as I feared, 
+Nox: you would be open to reason. 
+[Luxon, Nox]
+Luxon: I said this before to Stella, and I'll say it again now
+Luxon: We do NOT negotiate-
+[Cid, Nox]
+Cid: Shut up!
+[Shana, Nox]
+Shana: Luxon, for once in your life!
+[Cid, Nox]
+Nox: How Amusing. Before the next world takes me, 
+Nox: I would like to tell you a little story.
+Nox: Back in my day, when I was an adventurer like you, 
+Nox: I discovered the power over the dead, and taught it to 
+Nox: the poorest, the neediest, who became self-sustaining with 
+Nox: an army of workers that needed neither food nor sleep.
+Nox: Of course, the lords and ladies did not like that. 
+Nox: We were vilified, chased out into the deepest corners of the realm, 
+Nox: where we practiced in secret, undisturbed for decades, 
+Nox: until your king sought to expand his territory. 
+Nox: I taught my students, now spanning many generations, 
+Nox: to fight for their families and land. But of course this 
+Nox: did no favours for our image as ""bloody evil necromancers"".
+Nox: The stories about us grew more outrageous. I became a 
+Nox: frequent target of would-be heroes who would come to 
+Nox: this very castle to challenge me. 
+Nox: Some I managed to convince to join our cause. 
+Nox: Others, I admit, joined our cause against their will. As undead. 
+Nox: Many good men and women have died at the hands of so-called 
+Nox: heroes like you. It is too late for me to stop you, 
+Nox: but I would implore that you reconsider, before hunting down my brethren. 
+Cid: What you have said... 
+Cid: Given what I know of the king, it doesn't surprise me.
+[Luxon, Nox]
+Luxon: I can't believe my father would do that!
+Nox: If you choose to join our cause, 
+Nox: I will give you my knowledge. 
+Nox: If not, I ask only that you spare the innocent
+Nox: What will you choose?
