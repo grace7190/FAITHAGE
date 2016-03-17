@@ -18,8 +18,8 @@ class MeleeEnemy(Enemy):
         self.damage = 3
         self.attack_time = 0
         self.time_till_attack = 60
-        self.health = 100
-        self.total_health = 100
+        self.health = 200
+        self.total_health = 200
 
     def die(self):
         self.kill()
