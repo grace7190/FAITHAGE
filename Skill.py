@@ -28,10 +28,14 @@ class SkillIcon(pygame.sprite.Sprite):
                 (400,0,200,200),
                 (600,0,200,200)],colourkey=(0,255,0))
             self.skill_class = Dazzle
-            #self.skill = skill_function
-        # elif self.skill_name == "SOME_OTHER_SKILL":
-        #     self.image = pygame.image.load("SOME_SKILL.png").convert()
-        #     #self.skill = skill_function
+        elif self.skill_name == "HEAL":
+            self.image = pygame.image.load("art/ic_layhands.png").convert()
+            self.skill_sprites = SpriteSheet("art/fx_layhands.png").images_at(
+                [(0,0,200,200),
+                (200,0,200,200),
+                (400,0,200,200),
+                (600,0,200,200)],colourkey=(0,255,0))
+            self.skill_class = Heal
 
         self.image.set_alpha(255)
         self.rect = self.image.get_rect()
@@ -56,7 +60,8 @@ class SkillIcon(pygame.sprite.Sprite):
             return False
 
     # Return a skill object for activated skill icon.
-    def activate_skill(self, enemy_Group):
+    def activate_skill(self, enemy_Group, char):
+        char.do_skill()
         return self.skill_class(self.skill_sprites, self.rect.centerx, enemy_Group)
 
 
@@ -113,6 +118,30 @@ class Dazzle(pygame.sprite.Sprite):
                 for i in hits_idx:
                     self.enemy_list[i].stun = 90
         if self.sprite_id >= len(self.sprites_array)*6:
+            self.kill()
+        else:
+            self.image = self.sprites_array[(self.sprite_id)//6]
+
+
+class Heal(pygame.sprite.Sprite):
+    def __init__(self, skill_sprites, x, char_Group):
+        pygame.sprite.Sprite.__init__(self)
+        self.sprites_array = skill_sprites
+        self.sprite_id = 0
+        self.image = skill_sprites[0]
+        self.rect = self.image.get_rect()
+        self.rect.y = 550
+        min_health = 100
+        for char in char_Group:
+            if char.health <= min_health:
+                self.healed = char
+                min_health = char.health
+        self.rect.centerx = self.healed.hitbox.centerx
+
+    def update(self):
+        self.sprite_id += 1
+        if self.sprite_id >= len(self.sprites_array)*6:
+            self.healed.health += 10
             self.kill()
         else:
             self.image = self.sprites_array[(self.sprite_id)//6]

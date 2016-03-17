@@ -18,6 +18,16 @@ class Cid(Character):
                 (500,0,250,400),
                 (750,0,250,400)],colourkey=(0,255,0))
         Character.__init__(self, x, idle, walk, attack)
+        self.attack_time = -1
+
+    def do_skill(self):
+        if self.current_anim != self.walk_anim:
+            self.attack_time = len(self.attack_anim)*12 - 1
 
     def update(self):
         Character.update(self)
+
+        if self.attack_time > 0:
+            self.image = self.attack_anim[self.attack_time//12]
+            self.rect.x += 23
+            self.attack_time -= 1

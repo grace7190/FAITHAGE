@@ -101,6 +101,11 @@ a_released = True
 s_released = True
 d_released = True
 title_time = 0
+
+# Start Menu
+show_start = True
+start_button = pygame.Rect((270,570),(430,150))
+
 # Speakers
 show_dialogue = True
 dialogue_next = True
@@ -111,7 +116,7 @@ right_speaker = Speaker("Luxon", 1)
 speaker_Group.add(left_speaker)
 speaker_Group.add(right_speaker)
 # Skills
-S_skill_y, L_skill_y, C_skill_y = 1000, 915, 835
+S_skill_y, L_skill_y, C_skill_y = 835, 915, 1000
 S_skill_timer, L_skill_timer, C_skill_timer = 200, 160, 350
 S_skill_time, L_skill_time, C_skill_time = 0, 0, 0
 
@@ -143,22 +148,16 @@ def swap_emotion(char, emotion):
 def find_triggered_skills(score, gold):
     for skill in S_skill_Group:
         if not skill.triggered and skill.check_clicked():
-            score += 500
-            gold += 3
-            skill_Group.add(skill.activate_skill(enemy_Group))
+            skill_Group.add(skill.activate_skill(char_Group, Shana))
     for skill in L_skill_Group:
         if not skill.triggered and skill.check_clicked():
-            score += 500
-            gold += 3
-            skill_Group.add(skill.activate_skill(enemy_Group))
+            skill_Group.add(skill.activate_skill(enemy_Group, Luxon))
     for skill in C_skill_Group:
         if not skill.triggered and skill.check_clicked():
-            score += 500
-            gold += 3
-            skill_Group.add(skill.activate_skill(enemy_Group))
+            skill_Group.add(skill.activate_skill(enemy_Group, Cid))
 
 
-def activate_skill(skills, score, gold):
+def activate_skill(skills, char):
     max_x = 0
     current = None
     for s in skills:
@@ -166,17 +165,15 @@ def activate_skill(skills, score, gold):
             current = s
             max_x = s.rect.x
     if current:
-        score += 500
-        gold += 3
-        skill_Group.add(current.activate_skill(enemy_Group))
+        if current.skill_name == "HEAL":
+            skill_Group.add(current.activate_skill(char_Group, char))
+        else:
+            skill_Group.add(current.activate_skill(enemy_Group, char))
         current.triggered = True
 
 
-def setup_level(level, wave):
-    global bg
-    # bg = pygame.image.load("art/bg_forest.jpg").convert()
-
-    # setup_enemies(melee)
+def menu_click():
+    return start_button.collidepoint(pygame.mouse.get_pos())
 
 
 # -------- Main Program Loop ---------
@@ -187,24 +184,29 @@ while not quit:
             quit = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if pygame.mouse.get_pressed()[0]:
-                # click_sound.play()
-                find_triggered_skills(score, gold)
+                if show_start:
+                    show_start = not menu_click()
+                elif show_dialogue:
+                    dialogue_next = True
+                else:
+                    find_triggered_skills()
         elif event.type == pygame.KEYDOWN:
             if pygame.key.get_pressed()[pygame.K_SPACE]:
                 dialogue_next = True
+                show_start = False
             if pygame.key.get_pressed()[pygame.K_ESCAPE]:
                 quit = True
             if pygame.key.get_pressed()[pygame.K_a]:
                 if a_released:
-                    activate_skill(C_skill_Group, score, gold)
+                    activate_skill(C_skill_Group, Cid)
                     a_released = False
             if pygame.key.get_pressed()[pygame.K_s]:
                 if s_released:
-                    activate_skill(L_skill_Group, score, gold)
+                    activate_skill(L_skill_Group, Luxon)
                     s_released = False
             if pygame.key.get_pressed()[pygame.K_d]:
                 if d_released:
-                    activate_skill(S_skill_Group, score, gold)
+                    activate_skill(S_skill_Group, Shana)
                     d_released = False
         elif event.type == pygame.KEYUP:
             if not pygame.key.get_pressed()[pygame.K_a]:
@@ -252,7 +254,7 @@ while not quit:
 
     # Skills
     if S_skill_time >= S_skill_timer:
-        S_skill_Group.add(SkillIcon("AIRSTRIKE", S_skill_y))
+        S_skill_Group.add(SkillIcon("HEAL", S_skill_y))
         S_skill_time = 0
     if L_skill_time >= L_skill_timer:
         L_skill_Group.add(SkillIcon("DAZZLE", L_skill_y))
@@ -376,8 +378,8 @@ while not quit:
 
 # #### draw hitbox
 #     for en in enemy_Group:
-#         hitbox = pygame.Surface((en.hitbox.width, en.hitbox.height))
-#         screen.blit(hitbox, (en.hitbox.x, en.hitbox.y))
+#     hitbox = pygame.Surface((Luxon.hitbox.width, Luxon.hitbox.height))
+#     screen.blit(hitbox, (Luxon.hitbox.x, Luxon.hitbox.y))
 # ####
 
     # --- update Sprites
