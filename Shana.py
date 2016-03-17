@@ -25,7 +25,7 @@ class Shana(Character):
         self.attacking = False
         self.attack_time = 0
         self.time_till_attack = 60
-        self.damage = 20
+        self.damage = 80
 
     def do_skill(self):
         return None

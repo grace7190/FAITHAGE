@@ -308,7 +308,7 @@ Cid: You can buy party hats with your monthly allowance?! What the actual f-
 [Cid, Shana]
 Shana: I suppose that's only expected for a prince. 
 Luxon: Yeah guys, don't worry about that. 
-I'm sure my father will also reward you handsomely.
+Luxon: I'm sure my father will also reward you handsomely.
 Cid: He better. We'd best get moving. Wouldn't want 
 Cid: to keep His Majesty waiting, after all.
 Shana: As God is my witness, I'll never be hungry again!

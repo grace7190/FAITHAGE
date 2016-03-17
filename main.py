@@ -40,12 +40,12 @@ ui_icons_top = pygame.image.load("art/ui_overlay_top.png").convert()
 ui_icons_top.set_colorkey((255,255,255))
 click_sound = pygame.mixer.Sound("sound/fx_test.ogg")
 click_sound.set_volume(0.1)
-dialogue_file = open("dialogue.txt")
+dialogue_file = open("dialogue_new.txt")
 
 backgrounds = [pygame.image.load("art/bg_plains.jpg").convert(),
                pygame.image.load("art/bg_forest.jpg").convert(),
                pygame.image.load("art/bg_hills.jpg").convert()]
-bg = backgrounds[0]
+game_bg = backgrounds[0]
 
 # Characters
 Luxon = Luxon(350)
@@ -99,8 +99,8 @@ show_dialogue = True
 dialogue_next = True
 s = pygame.font.Font("resources/SourceSerifPro-Regular.otf", 32).render('', 1, (255,255,255))
 d = pygame.font.Font("resources/SourceSerifPro-Regular.otf", 32).render('', 1, (255,255,255))
-left_speaker = Speaker("Shana", -1)
-right_speaker = Speaker("Luxon", 1)
+left_speaker = Speaker("Blank", -1)
+right_speaker = Speaker("Blank", 1)
 speaker_Group.add(left_speaker)
 speaker_Group.add(right_speaker)
 # Skills
@@ -281,8 +281,11 @@ while not quit:
             chapter += 1
         if chapter > 2:
             chapter = 0
+            show_dialogue = True
             level += 1
-        bg = backgrounds[level]
+        if level == 2 and chapter == 2:
+            show_dialogue = True
+        game_bg = backgrounds[level]
         Levels.setup_enemies(level, chapter, wave, m_enemy_List, r_enemy_List, enemy_Group, health_Group)
 
 
@@ -368,7 +371,7 @@ while not quit:
         title_time -= 1
 
     # --- Drawing code
-    screen.blit(bg, (background_x % -(bg.get_width()-screen.get_width()),0))
+    screen.blit(game_bg, (background_x % -(game_bg.get_width()-screen.get_width()),0))
     screen.blit(gold_text, (20, 20))
     if title_time > 0:
         screen.blit(title_text, (750,50))
