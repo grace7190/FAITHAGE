@@ -15,12 +15,9 @@ from Levels import *
 # Might not be the same for your monitor?
 ctypes.windll.user32.SetProcessDPIAware()
 os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (0,30)
-# pygame.mixer.pre_init(44100, -16, 2, 2048) # setup mixer to avoid sound lag
 
 pygame.init()
-pygame.mixer.init()
 screen = pygame.display.set_mode([1920,1080], pygame.FULLSCREEN)
-bgm = pygame.mixer.Sound("sound/bgm_dia.ogg")
 pygame.display.set_caption("#FAITHAGE")
 
 # Used to manage how fast the screen updates
@@ -33,6 +30,7 @@ clock = pygame.time.Clock()
 # more vars
 Levels = Levels()
 bg_dia_castle = pygame.image.load("art/bg_dia_castle.jpg").convert()
+main_menu = pygame.image.load("art/bg_start_screen.jpg").convert()
 ui_icons = pygame.image.load("art/ui_overlay.png").convert()
 ui_icons.set_colorkey((255,255,255))
 ui_icons_top = pygame.image.load("art/ui_overlay_top.png").convert()
@@ -72,20 +70,6 @@ enemy_Group = pygame.sprite.Group()
 m_enemy_List = []
 r_enemy_List = []
 
-# bob = MeleeEnemy(1650)
-# m_enemy_List.append(bob)
-# m_enemy_List.append(MeleeEnemy(850))
-# m_enemy_List.append(MeleeEnemy(3000))
-# m_enemy_List.append(MeleeEnemy(2000))
-
-# r_enemy_List.append(RangedEnemy(2300))
-# r_enemy_List.append(RangedEnemy(3000))
-# r_enemy_List.append(RangedEnemy(1600))
-# for en in m_enemy_List:
-#     enemy_Group.add(en)
-# for en in r_enemy_List:
-#     enemy_Group.add(en)
-
 # Set up Healthbars
 for char in char_Group:
     health_Group.add(char.healthbar)
@@ -96,7 +80,6 @@ for char in char_Group:
 level = 0
 chapter = 0
 wave = -1
-score = 0
 gold = 0
 moving = True
 background_x = 0
@@ -105,11 +88,9 @@ a_released = True
 s_released = True
 d_released = True
 title_time = 0
-
 # Start Menu
 show_start = True
 start_button = pygame.Rect((270,570),(430,150))
-
 # Speakers
 show_dialogue = True
 dialogue_next = True
@@ -149,7 +130,7 @@ def swap_emotion(char, emotion):
     return
 
 
-def find_triggered_skills(score, gold):
+def find_triggered_skills():
     for skill in S_skill_Group:
         if not skill.triggered and skill.check_clicked():
             skill_Group.add(skill.activate_skill(char_Group, Shana))
@@ -220,18 +201,19 @@ while not quit:
             if not pygame.key.get_pressed()[pygame.K_d]:
                 d_released = True
 
+    # START MENU
+    if show_start:
+        screen.blit(main_menu, (0,0))
+        pygame.display.flip()
+        clock.tick(60)
+        continue
+
     # DIALOGUE
     if show_dialogue:
         if dialogue_next:
             dialogue = dialogue_file.next().strip()
             if dialogue == "===":
                 show_dialogue = False
-            elif dialogue[0] == '_':
-                bg = pygame.image.load("art/bg_dia_{0}.jpg".format(dialogue[1:-1])).convert()
-            elif dialogue[0] == '*':
-                bgm.stop()
-                bgm = pygame.mixer.Sound("sound/{0}.ogg".format(dialogue[1:-1])) # load music
-                bgm.play()
             elif dialogue[0] == '[':
                 speakers = dialogue[1:-1].split(', ')
                 (left_speaker, right_speaker) = swap_speakers(speakers[0], speakers[1])
@@ -239,7 +221,6 @@ while not quit:
                 char_emotion = dialogue[1:-1].split(', ')
                 swap_emotion(char_emotion[0], char_emotion[1])
             else:
-                dialogue = dialogue.encode("iso-8859-1") 
                 dialogue = dialogue.split(': ')
                 s = pygame.font.Font("resources/SourceSerifPro-Regular.otf", 28).\
                     render(dialogue[0], 1, (180,180,180))
@@ -247,7 +228,7 @@ while not quit:
                     render(dialogue[1], 1, (255,255,255))
                 dialogue_next = False
 
-        screen.blit(bg, (0,0))
+        screen.blit(bg_dia_castle, (0,0))
         screen.blit(s, (590,830))
         screen.blit(d, (590,885))
         speaker_Group.update()
@@ -273,10 +254,12 @@ while not quit:
     # Check dead Enemies
     for en in m_enemy_List:
         if en.health <= 0:
+            gold += 18
             en.die()
             m_enemy_List.remove(en)
     for en in r_enemy_List:
         if en.health <= 0:
+            gold += 18
             en.die()
             r_enemy_List.remove(en)
     if not (r_enemy_List or m_enemy_List):
@@ -310,7 +293,9 @@ while not quit:
     for en in r_enemy_List:
         if en.attacking and en.attack_time >= en.time_till_attack:
             en.attack_time = 0
-            [Shana, Cid, Luxon][randint(0,2)].health -= en.damage
+            target = [Shana, Cid, Luxon][randint(0,2)]
+            skill_Group.add(en.launch_skill(target))
+            # [Shana, Cid, Luxon][randint(0,2)].health -= en.damage
 
     # Check Hero damage given
     for en in m_enemy_List:
@@ -351,7 +336,8 @@ while not quit:
         for en in m_enemy_List:
             en.hitbox.move_ip(-2,0)
         for skill in skill_Group:
-            skill.rect.move_ip(-2,0)
+            if not isinstance(skill, Missile):
+                skill.rect.move_ip(-2,0)
     else:
         Cid.change_anim(Cid.idle_anim)
         Luxon.change_anim(Luxon.idle_anim)
@@ -363,11 +349,9 @@ while not quit:
         background_x -= 2
 
     # Setting up UI text
-    xp_text = pygame.font.SysFont("comicsansms", 32).\
-        render("XP: "+str(score), 1, (0,0,0))
-    gold_text = pygame.font.SysFont("comicsansms", 32).\
-        render("Gold: "+str(gold), 1, (255, 204, 0), (0, 0, 102))
-    title_text = pygame.font.SysFont("comicsansms", 50, True).\
+    gold_text = pygame.font.SysFont("resources/SourceSerifPro-Regular.otf", 42).\
+        render(str(gold)+" GOLD", 1, (0, 0, 0))
+    title_text = pygame.font.SysFont("resources/SourceSerifPro-Regular.otf", 50, True).\
         render("CHAPTER "+str(level+1)+"-"+str(chapter+1)+"  WAVE "+str(wave+1), 1, (0, 0, 0))
 
     if title_time > 0:
@@ -375,10 +359,9 @@ while not quit:
 
     # --- Drawing code
     screen.blit(bg, (background_x % -(bg.get_width()-screen.get_width()),0))
-    screen.blit(xp_text, (5, 10))
-    screen.blit(gold_text, (5, 50))
+    screen.blit(gold_text, (20, 20))
     if title_time > 0:
-        screen.blit(title_text, (600,50))
+        screen.blit(title_text, (750,50))
     screen.blit(ui_icons, (0,0))
 
 # #### draw hitbox
@@ -398,8 +381,8 @@ while not quit:
     S_skill_Group.draw(screen)
     L_skill_Group.draw(screen)
     C_skill_Group.draw(screen)
-    char_Group.draw(screen)
     enemy_Group.draw(screen)
+    char_Group.draw(screen)
     skill_Group.draw(screen)
     health_Group.draw(screen)
 
