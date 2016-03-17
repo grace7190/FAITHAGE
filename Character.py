@@ -18,7 +18,7 @@ class Character(pygame.sprite.Sprite):
         self.current_anim = self.idle_anim
         self.rect = self.image.get_rect()
         self.sprite_id = 0
-        self.health = 20
+        self.health = 100
         self.total_health = 100
         self.healthbar = HealthBar(self, (20, 131, 7))
         self.hitbox = pygame.Rect(

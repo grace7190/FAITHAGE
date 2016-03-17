@@ -91,6 +91,16 @@ class Skelli(Enemy):
             self.attack_time += 1
 
 
+class Stella(RangedEnemy):
+    def __init__(self, x):
+        RangedEnemy.__init__(self, x)
+        self.idle_anim = SpriteSheet("art/pl_stella_necro.png").images_at(
+            [(0,0,300,400)],colourkey=(0,255,0))
+        self.attack_anim = self.idle_anim
+        self.walk_anim = self.idle_anim
+        self.hitbox.y -= 100
+
+
 class Bone(pygame.sprite.Sprite):
     def __init__(self, start_x, target):
         pygame.sprite.Sprite.__init__(self)

@@ -28,8 +28,8 @@ class Levels():
         C7 = {'melee':[1,0], 'ranged':[1,0], 'skell':[1,2], 'zombi':[1,1],
               'meleer':[1,2], 'meleeg':[1,2], 'nox':[0,0], 'stella':[0,0]}
 
-        C8 = {'melee':[0,0], 'ranged':[3,0], 'skell':[2,0], 'zombi':[0,0],
-             'meleer':[2,0], 'meleeg':[1,0], 'nox':[0,0], 'stella':[0,1]}
+        C8 = {'melee':[0,0], 'ranged':[3,0], 'skell':[2,4], 'zombi':[0,0],
+             'meleer':[2,0], 'meleeg':[1,1], 'nox':[0,0], 'stella':[0,1]}
 
         C9 = {'melee':[0,0], 'ranged':[0,0], 'skell':[0,0], 'zombi':[0,0],
              'meleer':[0,0], 'meleeg':[0,0], 'nox':[1,0], 'stella':[0,0]}
@@ -43,6 +43,8 @@ class Levels():
         skelli = self.levels[l][c].get('skell')[w]
         meleer = self.levels[l][c].get('meleer')[w]
         meleeg = self.levels[l][c].get('meleeg')[w]
+        nox = self.levels[l][c].get('nox')[w]
+        stella = self.levels[l][c].get('stella')[w]
         for i in range(melee):
             m_enemy_List.append(MeleeEnemy(2000+150*i))
         for i in range(zombi):
@@ -51,11 +53,15 @@ class Levels():
             m_enemy_List.append(MeleeEnemyR(2000+150*(i+melee+zombi)))
         for i in range(meleeg):
             m_enemy_List.append(MeleeEnemyG(2000+150*(i+melee+zombi+meleer)))
+        for i in range(nox):
+            m_enemy_List.append(Nox(2000+150*(i+melee+zombi+meleer+meleeg)))
 
         for i in range(ranged):
             r_enemy_List.append(RangedEnemy(2100+150*i))
         for i in range(skelli):
             r_enemy_List.append(Skelli(2100+150*(i+ranged)))
+        for i in range(stella):
+            r_enemy_List.append(Stella(2100+150*(i+ranged+skelli)))
 
         for en in m_enemy_List:
             enemy_Group.add(en)

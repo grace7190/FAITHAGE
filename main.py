@@ -32,7 +32,6 @@ clock = pygame.time.Clock()
 
 # more vars
 Levels = Levels()
-bg = pygame.image.load("art/bg_forest.jpg").convert()
 bg_dia_castle = pygame.image.load("art/bg_dia_castle.jpg").convert()
 ui_icons = pygame.image.load("art/ui_overlay.png").convert()
 ui_icons.set_colorkey((255,255,255))
@@ -41,6 +40,11 @@ ui_icons_top.set_colorkey((255,255,255))
 click_sound = pygame.mixer.Sound("sound/fx_test.ogg")
 click_sound.set_volume(0.1)
 dialogue_file = open("dialogue.txt")
+
+backgrounds = [pygame.image.load("art/bg_plains.jpg").convert(),
+               pygame.image.load("art/bg_forest.jpg").convert(),
+               pygame.image.load("art/bg_hills.jpg").convert()]
+bg = backgrounds[0]
 
 # Characters
 Luxon = Luxon(350)
@@ -285,6 +289,7 @@ while not quit:
         if chapter > 2:
             chapter = 0
             level += 1
+        bg = backgrounds[level]
         Levels.setup_enemies(level, chapter, wave, m_enemy_List, r_enemy_List, enemy_Group, health_Group)
 
 
