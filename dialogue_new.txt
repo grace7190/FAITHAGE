@@ -440,3 +440,4 @@ Nox: If you choose to join our cause,
 Nox: I will give you my knowledge. 
 Nox: If not, I ask only that you spare the innocent
 Nox: What will you choose?
+%%%%

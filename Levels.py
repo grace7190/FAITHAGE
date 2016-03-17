@@ -5,7 +5,7 @@ from RangedEnemy import *
 
 class Levels():
     def __init__(self):
-        C1 = {'melee':[1,0], 'ranged':[0,0], 'skell':[0,0], 'zombi':[0,0],
+        C1 = {'melee':[1,3], 'ranged':[0,0], 'skell':[0,0], 'zombi':[0,0],
               'meleer':[0,0], 'meleeg':[0,0], 'nox':[0,0], 'stella':[0,0]}
 
         C2 = {'melee':[3,3], 'ranged':[1,2], 'skell':[0,0], 'zombi':[0,0],
@@ -13,7 +13,7 @@ class Levels():
 
         C3 = {'melee':[2,3], 'ranged':[3,2], 'skell':[0,0], 'zombi':[0,0],
              'meleer':[0,1], 'meleeg':[0,0], 'nox':[0,0], 'stella':[0,0]}
-        self.L1 = [C1, C1, C1]
+        self.L1 = [C1, C2, C3]
 
         C4 = {'melee':[1,0], 'ranged':[1,2], 'skell':[0,0], 'zombi':[0,0],
               'meleer':[2,3], 'meleeg':[0,0], 'nox':[0,0], 'stella':[0,0]}
@@ -23,7 +23,7 @@ class Levels():
 
         C6 = {'melee':[0,0], 'ranged':[1,0], 'skell':[1,3], 'zombi':[4,3],
              'meleer':[0,0], 'meleeg':[0,0], 'nox':[0,0], 'stella':[0,0]}
-        self.L2 = [C1, C1, C1]
+        self.L2 = [C4, C5, C6]
 
         C7 = {'melee':[1,0], 'ranged':[1,0], 'skell':[1,2], 'zombi':[1,1],
               'meleer':[1,2], 'meleeg':[1,2], 'nox':[0,0], 'stella':[0,0]}
@@ -33,7 +33,7 @@ class Levels():
 
         C9 = {'melee':[0,0], 'ranged':[0,0], 'skell':[0,0], 'zombi':[0,0],
              'meleer':[0,0], 'meleeg':[0,0], 'nox':[1,0], 'stella':[0,0]}
-        self.L3 = [C1, C1, C1]
+        self.L3 = [C7, C8, C9]
         self.levels = [self.L1, self.L2, self.L3]
 
     def setup_enemies(self, l, c, w, m_enemy_List, r_enemy_List, enemy_Group, health_Group):
