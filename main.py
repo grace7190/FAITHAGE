@@ -80,6 +80,8 @@ for char in char_Group:
 #     health_Group.add(en.healthbar)
 
 # Variables
+you_win = False
+win_counter = 0
 game_over = 0
 level = 0
 chapter = 0
@@ -205,6 +207,16 @@ while not quit:
             if not pygame.key.get_pressed()[pygame.K_d]:
                 d_released = True
 
+    if you_win:
+        win_counter += 1
+        if win_counter > 240:
+            credits = pygame.image.load("art/bg_credits.jpg").convert()
+            screen.blit(credits, (0,0))
+        pygame.display.flip()
+        clock.tick(60)
+        continue
+
+    # Game over
     if game_over > 20:
         game_over_screen = pygame.image.load("art/bg_game_over.jpg").convert()
         screen.blit(game_over_screen, (0,0))
@@ -223,7 +235,9 @@ while not quit:
     if show_dialogue:
         if dialogue_next:
             dialogue = dialogue_file.next().strip()
-            if dialogue == "===":
+            if dialogue == "%%%%":
+                you_win = True
+            elif dialogue == "===":
                 show_dialogue = False
             elif dialogue[0] == '_':
                 bg = pygame.image.load("art/bg_dia_{0}.jpg".format(dialogue[1:-1])).convert()
